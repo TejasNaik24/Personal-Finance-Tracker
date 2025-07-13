@@ -5,6 +5,7 @@ using namespace std;
 
 int main() {
     int option;
+    
     cout << "Welcome to your Personal Finance Tracker" << endl;
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
