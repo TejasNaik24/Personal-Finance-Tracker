@@ -15,7 +15,7 @@ public:
         cout << "Enter a number to choose an option: ";
         cin >> option;
         while (option != 1) {
-            cout << "invalid option please enter a valid option" << endl;
+            cout << "invalid option please enter a valid option";
             cin >> option;
         }
         if (option == 1) {
