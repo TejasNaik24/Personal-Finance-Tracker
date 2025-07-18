@@ -19,18 +19,32 @@ public:
             cin >> option;
         }
         if (option == 1) {
-            
+            addIncome();
         } else if (option == 2) {
-
+            addExpense();
         } else if (option == 3) {
-
+            viewReport();
         } else if (option == 4) {
-        
+            exportFile();
         } else {
-
+            restFile();
         }
     }
-    void addExpense() {};
+    void addIncome() {
+
+    };
+    void addExpense() {
+
+    };
+    void viewReport() {
+
+    }
+    void exportFile() {
+
+    };
+    void restFile() {
+
+    };
     
 };
 
