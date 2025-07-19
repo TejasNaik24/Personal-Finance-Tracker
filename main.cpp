@@ -3,22 +3,42 @@
 #include <string>
 using namespace std;
 
+struct IncomeItem {
+    string category;
+    float amount;
+};
+
 class TrackerAdd {
 public:
-    void addIncome() {};
-    void addExpense() {};
+    void addIncome(vector<IncomeItem>& income) {
+        IncomeItem item;
+        cout << "Name of Income (salary,)";
+        item.category = "what";
+        item.amount = 2.2;
+        cout << item.category;
+        cout << item.amount;
+    };
+    void addExpense() {
+
+    };
     
 };
 
 class TrackerSettings {
     public:
-        void viewReport() {}
-        void exportFile() {};
-        void resetFile() {};
+        void viewReport() {
+
+        }
+        void exportFile() {
+
+        };
+        void resetFile() {
+            
+        };
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income) {
     int option;
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
@@ -28,11 +48,11 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings) {
     cout << "Enter a number to choose an option: ";
     cin >> option;
     while (option < 1 || option > 5) {
-        cout << "invalid option please enter a valid option ";
+        cout << "Invalid option please enter a valid option ";
         cin >> option;
     }
     if (option == 1) {
-        add.addIncome();
+        add.addIncome(income);
     } else if (option == 2) {
         add.addExpense();
     } else if (option == 3) {
@@ -45,11 +65,13 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings) {
 }
 
 
-int main() { 
+int main() {
+    vector<IncomeItem> income; 
+    
     TrackerAdd add;
     TrackerSettings settings;
     cout << "Welcome to your Personal Finance Tracker" << endl;
-    showMenu(add, settings);
+    showMenu(add, settings, income);
 
     return 0;
 }
