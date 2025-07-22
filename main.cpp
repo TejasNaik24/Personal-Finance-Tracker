@@ -13,10 +13,6 @@ public:
     void addIncome(vector<IncomeItem>& income) {
         IncomeItem item;
         cout << "Name of Income (salary,)";
-        item.category = "what";
-        item.amount = 2.2;
-        cout << item.category;
-        cout << item.amount;
     };
     void addExpense() {
 
