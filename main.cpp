@@ -18,6 +18,7 @@ public:
 
     void addIncome(vector<IncomeItem>& income) {
         IncomeItem item;
+        cout << "type exit to end adding income" << endl;
         cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
         cin >> item.category;
         cout << "Enter amount: $";
@@ -50,7 +51,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     int option;
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
-    cout << "3. View Report" << endl;
+    cout << "3. View/Edit Report" << endl;
     cout << "4. Edit Report" << endl;
     cout << "5. Export file" << endl;
     cout << "6. Reset file" << endl;
