@@ -29,7 +29,10 @@ class TrackerSettings {
     public:
         void viewReport() {
 
-        }
+        };
+        void editReport() {
+
+        };
         void exportFile() {
 
         };
@@ -44,11 +47,12 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
     cout << "3. View Report" << endl;
-    cout << "4. Export file" << endl;
-    cout << "5. Reset file" << endl;
+    cout << "4. Edit Report" << endl;
+    cout << "5. Export file" << endl;
+    cout << "6. Reset file" << endl;
     cout << "Enter a number to choose an option: ";
     cin >> option;
-    while (option < 1 || option > 5) {
+    while (option < 1 || option > 6) {
         cout << "Invalid option please enter a valid option: ";
         cin >> option;
     }
@@ -59,6 +63,8 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     } else if (option == 3) {
         settings.viewReport();
     } else if (option == 4) {
+        settings.editReport();
+    } else if (option == 5) {
         settings.exportFile();
     } else {
         settings.resetFile();
