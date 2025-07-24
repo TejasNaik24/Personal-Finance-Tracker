@@ -12,9 +12,12 @@ class TrackerAdd {
 public:
     void addIncome(vector<IncomeItem>& income) {
         string IncomeName;
+        float IncomeAmount;
         IncomeItem item;
-        cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc)";
+        cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
         cin >> IncomeName;
+        cout << "Enter amount: ";
+        cin >> IncomeAmount;
     };
     void addExpense() {
 
@@ -46,7 +49,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     cout << "Enter a number to choose an option: ";
     cin >> option;
     while (option < 1 || option > 5) {
-        cout << "Invalid option please enter a valid option ";
+        cout << "Invalid option please enter a valid option: ";
         cin >> option;
     }
     if (option == 1) {
