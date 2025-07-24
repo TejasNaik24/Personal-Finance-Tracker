@@ -19,10 +19,15 @@ public:
     void addIncome(vector<IncomeItem>& income) {
         IncomeItem item;
         cout << "type exit to end adding income" << endl;
-        cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
-        cin >> item.category;
-        cout << "Enter amount: $";
-        cin >> item.amount;
+        while (true) {
+           cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
+            cin >> item.category;
+            if (item.category == "exit") {
+                break;
+            };
+            cout << "Enter amount: $";
+            cin >> item.amount;
+        };
     };
     void addExpense() {
 
