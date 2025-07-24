@@ -17,13 +17,11 @@ public:
 
 
     void addIncome(vector<IncomeItem>& income) {
-        string IncomeName;
-        float IncomeAmount;
         IncomeItem item;
         cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
-        cin >> IncomeName;
-        cout << "Enter amount: ";
-        cin >> IncomeAmount;
+        cin >> item.category;
+        cout << "Enter amount: $";
+        cin >> item.amount;
     };
     void addExpense() {
 
