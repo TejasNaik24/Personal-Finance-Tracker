@@ -10,6 +10,12 @@ struct IncomeItem {
 
 class TrackerAdd {
 public:
+
+    void yearName() {};
+
+    void addMonth() {};
+
+
     void addIncome(vector<IncomeItem>& income) {
         string IncomeName;
         float IncomeAmount;
@@ -74,6 +80,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     vector<IncomeItem> income; 
+    vector<string> month;
     
     TrackerAdd add;
     TrackerSettings settings;
