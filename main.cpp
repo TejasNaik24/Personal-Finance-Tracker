@@ -11,8 +11,10 @@ struct IncomeItem {
 class TrackerAdd {
 public:
     void addIncome(vector<IncomeItem>& income) {
+        string IncomeName;
         IncomeItem item;
-        cout << "Name of Income (salary,)";
+        cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc)";
+        cin >> IncomeName;
     };
     void addExpense() {
 
