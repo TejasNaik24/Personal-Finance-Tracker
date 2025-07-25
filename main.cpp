@@ -47,7 +47,14 @@ class TrackerSettings {
 
         };
         void resetFile() {
-            
+            char choice;
+            while (true) {
+                cout << "Are you sure you want to reset your file? y/n: " << endl;
+                cin >> choice;
+                if (choice == 'n' || choice == 'N') {
+                    break;
+                }
+            }
         };
 
 };
