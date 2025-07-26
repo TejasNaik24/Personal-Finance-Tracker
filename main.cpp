@@ -16,9 +16,13 @@ struct ExpenseItem {
 class TrackerAdd {
 public:
 
-    void yearName() {};
 
-    void addMonth() {};
+    string addMonth() {
+        string month;
+        cout << "Enter month to add data to (e.g. January): ";
+        cin >> month;
+        return month;
+    };
 
 
     void addIncome(vector<IncomeItem>& income) {
@@ -111,12 +115,17 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 
 int main() {
+    int year;
+    string month;
     vector<IncomeItem> income;
     vector<IncomeItem> expense;
     TrackerAdd add;
     TrackerSettings settings;
 
     cout << "Welcome to your Personal Finance Tracker" << endl;
+    cout << "Enter the year to add data to: ";
+    cin >> year;
+
 
     while (true) {
         showMenu(add, settings, income);
