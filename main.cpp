@@ -19,7 +19,7 @@ public:
 
     string addMonth() {
         string month;
-        cout << "Enter month to add data to (e.g. January): ";
+        cout << "Enter the month: (January, February, etc): ";
         cin >> month;
         return month;
     };
@@ -58,8 +58,22 @@ public:
 
 class TrackerSettings {
     public:
-        void changeMonth() {
+        void changeMonth(string& month) {
+            string temp;
+            cout << "Current month selected: " << month << endl;
+            cout << "Type exit To Cancel" << endl;
 
+            cout << "Enter new month: ";
+            cin >> temp;
+
+            if (temp == "exit") {
+                cout << "Month change cancelled." << endl;
+                return;
+            }
+
+            month = temp;
+            cout << "Month changed to: " << month << endl;
+            
         };
         void viewEditReport() {
 
@@ -84,7 +98,7 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string& month) {
     int option;
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
@@ -103,7 +117,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     } else if (option == 2) {
         add.addExpense(expense);
     } else if (option == 3) {
-        settings.changeMonth();
+        settings.changeMonth(month);
     } else if (option == 4) {
         settings.viewEditReport();
     } else if (option == 5) {
@@ -123,17 +137,13 @@ int main() {
     TrackerSettings settings;
 
     cout << "Welcome to your Personal Finance Tracker" << endl;
-    cout << "Enter the year to add data to: ";
+    cout << "Enter the year: (2025, 2026, etc)";
     cin >> year;
     month = add.addMonth();
 
 
     while (true) {
-        showMenu(add, settings, income, expense);
-        char again;
-        cout << "Return to menu? (y/n): ";
-        cin >> again;
-        if (again == 'n' || again == 'N') break;
+        showMenu(add, settings, income, expense, month);
     }
 
     cout << "Goodbye!" << endl;
