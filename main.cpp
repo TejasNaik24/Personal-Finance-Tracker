@@ -90,9 +90,7 @@ class TrackerSettings {
                 cin >> choice;
             }
             if (choice == 'n' || choice == 'N') {
-
-            } else {
-
+                return;
             }
         }
 
@@ -137,7 +135,7 @@ int main() {
     TrackerSettings settings;
 
     cout << "Welcome to your Personal Finance Tracker" << endl;
-    cout << "Enter the year: (2025, 2026, etc)";
+    cout << "Enter the year: (2025, 2026, etc): ";
     cin >> year;
     month = add.addMonth();
 
@@ -146,6 +144,5 @@ int main() {
         showMenu(add, settings, income, expense, month);
     }
 
-    cout << "Goodbye!" << endl;
     return 0;
 }
