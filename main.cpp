@@ -39,7 +39,7 @@ public:
             cout << "Added Sucessfully" << endl;
         };
     };
-    void addExpense() {
+    void addExpense(vector<ExpenseItem>& expense) {
         ExpenseItem value;
         cout << "Type exit To End" << endl;
         while (true) {
@@ -58,10 +58,10 @@ public:
 
 class TrackerSettings {
     public:
-        void viewReport() {
+        void changeMonth() {
 
         };
-        void editReport() {
+        void viewEditReport() {
 
         };
         void exportFile() {
@@ -84,14 +84,14 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense) {
     int option;
     cout << "1. Add Income" << endl;
     cout << "2. Add Expense" << endl;
-    cout << "3. View/Edit Report" << endl;
-    cout << "4. Edit Report" << endl;
-    cout << "5. Export file" << endl;
-    cout << "6. Reset file" << endl;
+    cout << "3. Change Month" << endl;
+    cout << "4. View/Edit Report" << endl;
+    cout << "5. Export File" << endl;
+    cout << "6. Reset File" << endl;
     cout << "Enter a number to choose an option: ";
     cin >> option;
     while (option < 1 || option > 6) {
@@ -101,11 +101,11 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     if (option == 1) {
         add.addIncome(income);
     } else if (option == 2) {
-        add.addExpense();
+        add.addExpense(expense);
     } else if (option == 3) {
-        settings.viewReport();
+        settings.changeMonth();
     } else if (option == 4) {
-        settings.editReport();
+        settings.viewEditReport();
     } else if (option == 5) {
         settings.exportFile();
     } else {
@@ -118,17 +118,18 @@ int main() {
     int year;
     string month;
     vector<IncomeItem> income;
-    vector<IncomeItem> expense;
+    vector<ExpenseItem> expense;
     TrackerAdd add;
     TrackerSettings settings;
 
     cout << "Welcome to your Personal Finance Tracker" << endl;
     cout << "Enter the year to add data to: ";
     cin >> year;
+    month = add.addMonth();
 
 
     while (true) {
-        showMenu(add, settings, income);
+        showMenu(add, settings, income, expense);
         char again;
         cout << "Return to menu? (y/n): ";
         cin >> again;
