@@ -8,6 +8,11 @@ struct IncomeItem {
     float amount;
 };
 
+struct ExpenseItem {
+    string category;
+    float amount;
+};
+
 class TrackerAdd {
 public:
 
@@ -18,19 +23,31 @@ public:
 
     void addIncome(vector<IncomeItem>& income) {
         IncomeItem item;
-        cout << "type exit to end adding income" << endl;
+        cout << "Type Exit To End" << endl;
         while (true) {
-           cout << "Name of Income (salary, freelance, side gigs, bonuses, tips, rental, dividends, etc): ";
+           cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
             cin >> item.category;
-            if (item.category == "exit") {
+            if (item.category == "exit" || item.category == "Exit") {
                 break;
             };
             cout << "Enter amount: $";
             cin >> item.amount;
+            cout << "Added Sucessfully" << endl;
         };
     };
     void addExpense() {
-
+        ExpenseItem value;
+        cout << "Type exit To End" << endl;
+        while (true) {
+        cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
+        cin >> value.category;
+        if (value.category == "exit" || value.category == "Exit") {
+            break;
+        };
+        cout << "Enter Amount: $";
+        cin >> value.amount;
+        cout << "Added Sucessfully" << endl;
+        };
     };
     
 };
@@ -94,7 +111,8 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 
 int main() {
-    vector<IncomeItem> income; 
+    vector<IncomeItem> income;
+    vector<IncomeItem> expense;
     TrackerAdd add;
     TrackerSettings settings;
 
