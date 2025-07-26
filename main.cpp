@@ -48,14 +48,18 @@ class TrackerSettings {
         };
         void resetFile() {
             char choice;
-            while (true) {
-                cout << "Are you sure you want to reset your file? y/n: ";
+            cout << "Are you sure you want to reset your file? y/n: ";
+            cin >> choice;
+            while (choice != 'n' && choice != 'N' && choice != 'y' && choice != 'Y') {
+                cout << "Invalid option please enter a valid option: ";
                 cin >> choice;
-                if (choice == 'n' || choice == 'N') {
-                    break;
-                }
             }
-        };
+            if (choice == 'n' || choice == 'N') {
+
+            } else {
+
+            }
+        }
 
 };
 
@@ -91,12 +95,19 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     vector<IncomeItem> income; 
-    vector<string> month;
-    
     TrackerAdd add;
     TrackerSettings settings;
-    cout << "Welcome to your Personal Finance Tracker" << endl;
-    showMenu(add, settings, income);
 
+    cout << "Welcome to your Personal Finance Tracker" << endl;
+
+    while (true) {
+        showMenu(add, settings, income);
+        char again;
+        cout << "Return to menu? (y/n): ";
+        cin >> again;
+        if (again == 'n' || again == 'N') break;
+    }
+
+    cout << "Goodbye!" << endl;
     return 0;
 }
