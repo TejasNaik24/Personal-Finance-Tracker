@@ -36,6 +36,7 @@ public:
             };
             cout << "Enter amount: $";
             cin >> item.amount;
+            income.push_back(item);
             cout << "Added Sucessfully" << endl;
         };
     };
@@ -50,6 +51,7 @@ public:
         };
         cout << "Enter Amount: $";
         cin >> value.amount;
+        expense.push_back(value);
         cout << "Added Sucessfully" << endl;
         };
     };
