@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <set>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -21,15 +20,15 @@ class TrackerAdd {
 public:
 
 
-    void addMonth(set<string>& months) {
+    void addMonth(vector<string>& months) {
         string month;
         cout << "Enter the month: (January, February, etc): ";
         cin >> month;
-        months.insert(month);
+        months.push_back(month);
     };
 
 
-    void addIncome(vector<IncomeItem>& income, set<string>& months) {
+    void addIncome(vector<IncomeItem>& income, vector<string>& months) {
         IncomeItem item;
         if (months.empty()) {
             cout << "Please Enter A New Month To Start Adding" << endl;
@@ -48,7 +47,7 @@ public:
             cout << "Added Sucessfully" << endl;
         };
     };
-    void addExpense(vector<ExpenseItem>& expense, set<string>& months) {
+    void addExpense(vector<ExpenseItem>& expense, vector<string>& months) {
         ExpenseItem value;
         if (months.empty()) {
             cout << "Please Enter A New Month To Start Adding" << endl;
@@ -88,7 +87,8 @@ class TrackerSettings {
             cout << "Month changed to: " << "month" << endl;
             
         };
-        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, set<string> months, int year) {
+        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
+            cout << "---------------------------------\n";
             cout << "------" << year << " ------\n";
             cout << "\n------ Monthly Report: " << "month" << " ------\n";
         };
@@ -115,7 +115,7 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, set<string>& months, int year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, int year, bool& resetFile) {
     int option;
     cout << "1. Add Month" << endl;
     cout << "2. Add Income" << endl;
@@ -149,7 +149,7 @@ int main() {
     int year;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
-    set<string> months;
+    vector<string> months;
     bool resetFile = false;
     TrackerAdd add;
     TrackerSettings settings;
