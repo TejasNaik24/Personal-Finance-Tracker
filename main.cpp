@@ -88,7 +88,7 @@ class TrackerSettings {
             cout << "Month changed to: " << "month" << endl;
             
         };
-        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, int year) {
+        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, set<string> months, int year) {
             cout << "------" << year << " ------\n";
             cout << "\n------ Monthly Report: " << "month" << " ------\n";
         };
@@ -136,7 +136,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     } else if (option == 3) {
         add.addExpense(expense, months);
     } else if (option == 4) {
-        settings.viewEditReport(income, expense, year);
+        settings.viewEditReport(income, expense, months, year);
     } else if (option == 5) {
         settings.exportFile();
     } else {
