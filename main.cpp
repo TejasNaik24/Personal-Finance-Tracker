@@ -21,16 +21,20 @@ class TrackerAdd {
 public:
 
 
-    string addMonth() {
+    void addMonth(set<string>& months) {
         string month;
         cout << "Enter the month: (January, February, etc): ";
         cin >> month;
-        return month;
+        months.insert(month);
     };
 
 
-    void addIncome(vector<IncomeItem>& income) {
+    void addIncome(vector<IncomeItem>& income, set<string>& months) {
         IncomeItem item;
+        if (months.empty()) {
+            cout << "Please Enter A New Month To Start Adding" << endl;
+            return;
+        }
         cout << "Type Exit To End" << endl;
         while (true) {
            cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
@@ -44,8 +48,12 @@ public:
             cout << "Added Sucessfully" << endl;
         };
     };
-    void addExpense(vector<ExpenseItem>& expense) {
+    void addExpense(vector<ExpenseItem>& expense, set<string>& months) {
         ExpenseItem value;
+        if (months.empty()) {
+            cout << "Please Enter A New Month To Start Adding" << endl;
+            return;
+        }
         cout << "Type exit To End" << endl;
         while (true) {
         cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
@@ -64,9 +72,9 @@ public:
 
 class TrackerSettings {
     public:
-        void changeMonth(string& month) {
+        void changeMonth() {
             string temp;
-            cout << "Current month selected: " << month << endl;
+            cout << "Current month selected: " << "month" << endl;
             cout << "Type exit To Cancel" << endl;
 
             cout << "Enter new month: ";
@@ -77,18 +85,17 @@ class TrackerSettings {
                 return;
             }
 
-            month = temp;
-            cout << "Month changed to: " << month << endl;
+            cout << "Month changed to: " << "month" << endl;
             
         };
-        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, const string& month, int year) {
+        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, int year) {
             cout << "------" << year << " ------\n";
-            cout << "\n------ Monthly Report: " << month << " ------\n";
+            cout << "\n------ Monthly Report: " << "month" << " ------\n";
         };
         void exportFile() {
 
         };
-        void resetFile(vector<IncomeItem>& income, vector<ExpenseItem>& expense, string& month, int year, bool& resetFile) {
+        void resetFile(vector<IncomeItem>& income, vector<ExpenseItem>& expense, int year, bool& resetFile) {
             char choice;
             cout << "Are you sure you want to reset your file? (This Will Reset Everything) y/n: ";
             cin >> choice;
@@ -102,18 +109,17 @@ class TrackerSettings {
             income.clear();
             expense.clear();
             year = 0;
-            month = "";
             cout << "Sucessfully Reset file" << endl;
             resetFile = true;
         }
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string& month, int year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, set<string>& months, int year, bool& resetFile) {
     int option;
-    cout << "1. Add Income" << endl;
-    cout << "2. Add Expense" << endl;
-    cout << "3. Change Month" << endl;
+    cout << "1. Add Month" << endl;
+    cout << "2. Add Income" << endl;
+    cout << "3. Add Expense" << endl;
     cout << "4. View/Edit Report" << endl;
     cout << "5. Export File" << endl;
     cout << "6. Reset File" << endl;
@@ -124,17 +130,17 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         cin >> option;
     }
     if (option == 1) {
-        add.addIncome(income);
+        add.addMonth(months);
     } else if (option == 2) {
-        add.addExpense(expense);
+        add.addIncome(income, months);
     } else if (option == 3) {
-        settings.changeMonth(month);
+        add.addExpense(expense, months);
     } else if (option == 4) {
-        settings.viewEditReport(income, expense, month, year);
+        settings.viewEditReport(income, expense, year);
     } else if (option == 5) {
         settings.exportFile();
     } else {
-        settings.resetFile(income, expense, month, year, resetFile);
+        settings.resetFile(income, expense, year, resetFile);
     }
 }
 
@@ -153,19 +159,16 @@ int main() {
     cout << "Welcome to your Personal Finance Tracker" << endl;
     cout << "Enter the year: (2025, 2026, etc): ";
     cin >> year;
-    month = add.addMonth();
-
 
     while (true) {
         if (resetFile) {
             cout << "Welcome to your Personal Finance Tracker" << endl;
             cout << "Enter the year: (2025, 2026, etc): ";
             cin >> year;
-            month = add.addMonth();
             resetFile = false;    
         }
 
-        showMenu(add, settings, income, expense, month, year, resetFile);
+        showMenu(add, settings, income, expense, months, year, resetFile);
     }
 
     return 0;
