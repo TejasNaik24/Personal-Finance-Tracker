@@ -88,14 +88,24 @@ class TrackerSettings {
             
         };
         void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
-            cout << "---------------------------------\n";
-            cout << "------" << year << " ------\n";
-            cout << "\n------ Monthly Report: " << "month" << " ------\n";
+            cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
+            cout << "|" << right << setw(78) << year << setw(77) << "|" << endl;
+            cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
+            cout << "|" << " Category " << "|";
+            for (string month : months) {
+                cout << "  " << month << "  " << "|";
+            }
+            cout << right << setw(6) << "total" << setw(4) << "|" << endl;
+            cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------"<< "|" << endl;
+            cout << "|" << "  Income  " << "|" << right << setw(144) << "|" << endl;
+            cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------"<< "|" << endl;
+
+
         };
         void exportFile() {
 
         };
-        void resetFile(vector<IncomeItem>& income, vector<ExpenseItem>& expense, int year, bool& resetFile) {
+        void resetFile(vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string> months, int year, bool& resetFile) {
             char choice;
             cout << "Are you sure you want to reset your file? (This Will Reset Everything) y/n: ";
             cin >> choice;
@@ -108,6 +118,7 @@ class TrackerSettings {
             }
             income.clear();
             expense.clear();
+            months.clear();
             year = 0;
             cout << "Sucessfully Reset file" << endl;
             resetFile = true;
@@ -140,7 +151,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     } else if (option == 5) {
         settings.exportFile();
     } else {
-        settings.resetFile(income, expense, year, resetFile);
+        settings.resetFile(income, expense, months, year, resetFile);
     }
 }
 
