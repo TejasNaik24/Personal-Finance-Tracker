@@ -30,10 +30,6 @@ public:
 
     void addIncome(vector<IncomeItem>& income, vector<string>& months) {
         IncomeItem item;
-        if (months.empty()) {
-            cout << "Please Enter A New Month To Start Adding" << endl;
-            return;
-        }
         cout << "Type Exit To End" << endl;
         while (true) {
            cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
@@ -49,10 +45,6 @@ public:
     };
     void addExpense(vector<ExpenseItem>& expense, vector<string>& months) {
         ExpenseItem value;
-        if (months.empty()) {
-            cout << "Please Enter A New Month To Start Adding" << endl;
-            return;
-        }
         cout << "Type exit To End" << endl;
         while (true) {
         cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
@@ -86,6 +78,30 @@ class TrackerSettings {
 
             cout << "Month changed to: " << "month" << endl;
             
+        };
+        void selectMonth(string currentMonth, vector<string>& months) {
+            if (months.empty()) {
+                cout << "Please Enter A Month To Edit" << endl;
+                return;
+            }
+            int selection;
+            for (int i = 0; i < months.size(); ++i) {
+                cout << i + 1 << ". " << months[i] << endl;
+            }
+            while (true) {
+                cout << "Enter a number to choose an option: ";
+                cin >> selection;
+                
+                if (selection >= 1 && selection <= months.size()) {
+                    currentMonth = months[selection - 1];
+                    break;
+                } else {
+                    cout << "Invalid selection. Please try again." << endl;
+                }
+            }
+
+            cout << "Currently Editing: " << currentMonth << endl;
+
         };
         void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
             cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
@@ -126,29 +142,26 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, int year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int year, bool& resetFile) {
     int option;
     cout << "1. Add Month" << endl;
-    cout << "2. Add Income" << endl;
-    cout << "3. Add Expense" << endl;
-    cout << "4. View/Edit Report" << endl;
-    cout << "5. Export File" << endl;
-    cout << "6. Reset File" << endl;
+    cout << "2. Select Month" << endl;
+    cout << "3. View/Edit Report" << endl;
+    cout << "4. Export File" << endl;
+    cout << "5. Reset File" << endl;
     cout << "Enter a number to choose an option: ";
     cin >> option;
-    while (option < 1 || option > 6) {
+    while (option < 1 || option > 5) {
         cout << "Invalid option please enter a valid option: ";
         cin >> option;
     }
     if (option == 1) {
         add.addMonth(months);
     } else if (option == 2) {
-        add.addIncome(income, months);
+        settings.selectMonth(currentMonth, months);
     } else if (option == 3) {
-        add.addExpense(expense, months);
-    } else if (option == 4) {
         settings.viewEditReport(income, expense, months, year);
-    } else if (option == 5) {
+    } else if (option == 4) {
         settings.exportFile();
     } else {
         settings.resetFile(income, expense, months, year, resetFile);
@@ -158,6 +171,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     int year;
+    string currentMonth;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
     vector<string> months;
@@ -178,7 +192,7 @@ int main() {
             resetFile = false;    
         }
 
-        showMenu(add, settings, income, expense, months, year, resetFile);
+        showMenu(add, settings, income, expense, currentMonth, months, year, resetFile);
     }
 
     return 0;
