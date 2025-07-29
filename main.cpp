@@ -144,6 +144,7 @@ int main() {
     string month;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
+    set<string> months;
     bool resetFile = false;
     TrackerAdd add;
     TrackerSettings settings;
