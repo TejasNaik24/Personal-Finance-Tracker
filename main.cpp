@@ -147,7 +147,6 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     int year;
-    string month;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
     set<string> months;
