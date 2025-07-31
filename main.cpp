@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 using namespace std;
 
 struct IncomeItem {
@@ -63,19 +64,52 @@ public:
 
 class TrackerSettings {
     public:
-        void editSettings() {
+        void addEditFile(vector<string>& months, string& currentMonth, int& year) {
             int decision;
-            cout << "1. Edit Settings" << endl;
-            cout << "2. View Report" << endl;
-            cout << "3. Export File" << endl;
-            cout << "4. Reset File" << endl;
+            cout << "1. Edit Year" << endl;
+            cout << "2. Edit Month" << endl;
             cout << "Enter a number to choose an option: ";
             cin >> decision;
-            while (decision < 1 || decision > 4) {
+            while (decision < 1 || decision > 2) {
                 cout << "Invalid option please enter a valid option: ";
                 cin >> decision;
-    }
+            }
+            if (decision == 1) {
+                changeYear(year);
+            } else if (decision == 2) {
+
+            } else {
+                
+            }
             
+        }
+        void changeYear(int& year) {
+            string currentTemp;
+            cout << "Current Year: " << year << endl;
+            cout << "Type exit To Cancel" << endl;
+
+            cout << "Enter new year: ";
+            cin >> currentTemp;
+            if (currentTemp == "exit") {
+                cout << "Year Change Cancelled" << endl;
+                return;
+            }
+            while (true) {
+                try {
+                    year = stoi(currentTemp);
+                    cout << "Year changed to: " << year << endl;
+                    break;
+                } catch (invalid_argument&) {
+                    cout << "Invalid input. Please enter a valid year: ";
+                    cin >> currentTemp;
+
+                    if (currentTemp == "exit") {
+                        cout << "Year Change Cancelled" << endl;
+                        return;
+                    }
+                }
+            }
+
         }
         void changeMonth() {
             string temp;
@@ -156,9 +190,9 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int& year, bool& resetFile) {
     int option;
-    cout << "1. Edit Settings" << endl;
+    cout << "1. Add/Edit File" << endl;
     cout << "2. View Report" << endl;
     cout << "3. Export File" << endl;
     cout << "4. Reset File" << endl;
@@ -169,7 +203,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         cin >> option;
     }
     if (option == 1) {
-
+        settings.addEditFile(months, currentMonth, year);
     } else if (option == 2) {
 
     } else if (option == 3) {
