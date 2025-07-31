@@ -64,7 +64,7 @@ public:
 
 class TrackerSettings {
     public:
-        void addEditFile(vector<string>& months, string& currentMonth, int& year) {
+        void addEditFile(TrackerAdd& add, vector<string>& months, string& currentMonth, int& year) {
             int decision;
             cout << "1. Edit Year" << endl;
             cout << "2. Edit Month" << endl;
@@ -76,12 +76,31 @@ class TrackerSettings {
             }
             if (decision == 1) {
                 changeYear(year);
-            } else if (decision == 2) {
-
-            } else {
-                
+            } else  {
+                monthMenu(add, months, currentMonth);
             }
-            
+
+        }
+
+        void monthMenu(TrackerAdd& add, vector<string>& months, string& currentMonth) {
+            int alternative;
+            cout << "1. Add Month" << endl;
+            cout << "2. Remove Month" << endl;
+            cout << "3. Edit Month Name" << endl;
+            cout << "4. Add To Month" << endl;
+            cout << "Enter a number to choose an option: ";
+            cin >> alternative;
+            while (alternative < 1 || alternative > 4) {
+                cout << "Invalid option please enter a valid option: ";
+                cin >> alternative;
+            }
+
+            switch (alternative) {
+                case 1:
+                    add.addMonth(months);
+                    break;
+
+            }
         }
         void changeYear(int& year) {
             string currentTemp;
@@ -203,7 +222,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         cin >> option;
     }
     if (option == 1) {
-        settings.addEditFile(months, currentMonth, year);
+        settings.addEditFile(add, months, currentMonth, year);
     } else if (option == 2) {
 
     } else if (option == 3) {
