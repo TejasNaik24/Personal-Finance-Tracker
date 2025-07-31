@@ -144,14 +144,13 @@ class TrackerSettings {
 
 void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int year, bool& resetFile) {
     int option;
-    cout << "1. Add Month" << endl;
-    cout << "2. Select Month" << endl;
-    cout << "3. View/Edit Report" << endl;
-    cout << "4. Export File" << endl;
-    cout << "5. Reset File" << endl;
+    cout << "1. Edit Settings" << endl;
+    cout << "2. View Report" << endl;
+    cout << "3. Export File" << endl;
+    cout << "4. Reset File" << endl;
     cout << "Enter a number to choose an option: ";
     cin >> option;
-    while (option < 1 || option > 5) {
+    while (option < 1 || option > 4) {
         cout << "Invalid option please enter a valid option: ";
         cin >> option;
     }
