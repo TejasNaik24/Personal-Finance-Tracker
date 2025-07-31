@@ -109,7 +109,7 @@ class TrackerSettings {
                 } else if (alternative == 3) {
                     cout << "placeholder";
                 } else if (alternative == 4) {
-                    selectMonth(months);
+                    addToMonth(months);
                 } else {
                     break;
                 }
@@ -191,29 +191,45 @@ class TrackerSettings {
             cout << "Month changed to: " << "month" << endl;
             
         };
-        void selectMonth(vector<string>& months) {
+        void addToMonth(vector<string>& months) {
             string currentMonth;
             if (months.empty()) {
                 cout << "Please Enter A Month To Edit" << endl;
                 return;
             }
-            int selection;
+            int intSelection;
+            string strSelection;
             cout << "Available months: " << endl;
             for (int i = 0; i < months.size(); ++i) {
                 cout << i + 1 << ". " << months[i] << endl;
             }
+            cout << "Type exit To Cancel" << endl;
+            cout << "Enter a number to choose an option: ";
+            cin >> strSelection;
+            if (strSelection == "exit") {
+                return;
+            }
             while (true) {
-                cout << "Enter a number to choose an option: ";
-                cin >> selection;
-                
-                if (selection >= 1 && selection <= months.size()) {
-                    currentMonth = months[selection - 1];
-                    break;
-                } else {
-                    cout << "Invalid selection. Please try again." << endl;
+                try {
+                    intSelection = stoi(strSelection);
+                    if (intSelection >= 1 && intSelection <= months.size()) {
+                        currentMonth = months[intSelection - 1];
+                        break;
+                    } else {
+                        cout << "Invalid selection. Please try again: ";
+                        cin >> strSelection;
+                        if (strSelection == "exit") {
+                            return;
+                        }
+                    }
+                } catch (invalid_argument&) {
+                    cout << "Invalid option please enter a valid option: ";
+                    cin >> strSelection;
+                    if (strSelection == "exit") {
+                        return;
+                    }
                 }
             }
-            currentMonth = selection;
             cout << "Currently Editing: " << currentMonth << endl;
 
         };
