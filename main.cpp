@@ -63,6 +63,20 @@ public:
 
 class TrackerSettings {
     public:
+        void editSettings() {
+            int decision;
+            cout << "1. Edit Settings" << endl;
+            cout << "2. View Report" << endl;
+            cout << "3. Export File" << endl;
+            cout << "4. Reset File" << endl;
+            cout << "Enter a number to choose an option: ";
+            cin >> decision;
+            while (decision < 1 || decision > 4) {
+                cout << "Invalid option please enter a valid option: ";
+                cin >> decision;
+    }
+            
+        }
         void changeMonth() {
             string temp;
             cout << "Current month selected: " << "month" << endl;
@@ -103,7 +117,7 @@ class TrackerSettings {
             cout << "Currently Editing: " << currentMonth << endl;
 
         };
-        void viewEditReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
+        void viewReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
             cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
             cout << "|" << right << setw(78) << year << setw(77) << "|" << endl;
             cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
@@ -155,13 +169,11 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         cin >> option;
     }
     if (option == 1) {
-        add.addMonth(months);
+
     } else if (option == 2) {
-        settings.selectMonth(currentMonth, months);
+
     } else if (option == 3) {
-        settings.viewEditReport(income, expense, months, year);
-    } else if (option == 4) {
-        settings.exportFile();
+        settings.viewReport(income, expense, months, year);
     } else {
         settings.resetFile(income, expense, months, year, resetFile);
     }
