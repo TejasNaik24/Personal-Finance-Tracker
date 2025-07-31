@@ -64,7 +64,7 @@ public:
 
 class TrackerSettings {
     public:
-        void addEditFile(TrackerAdd& add, vector<string>& months, string& currentMonth, int& year) {
+        void addEditFile(TrackerAdd& add, vector<string>& months, int& year) {
             while (true) {
                 int decision;
                 cout << "1. Edit Year" << endl;
@@ -78,8 +78,8 @@ class TrackerSettings {
                 }
                 if (decision == 1) {
                     changeYear(year);
-                } else  if (decision == 2){
-                    monthMenu(add, months, currentMonth);
+                } else if (decision == 2){
+                    monthMenu(add, months);
                 } else {
                     break;
                 }
@@ -87,32 +87,32 @@ class TrackerSettings {
 
         }
 
-        void monthMenu(TrackerAdd& add, vector<string>& months, string& currentMonth) {
-            int alternative;
-            cout << "1. Add Month" << endl;
-            cout << "2. Remove Month" << endl;
-            cout << "3. Edit Month Name" << endl;
-            cout << "4. Add To Month" << endl;
-            cout << "Enter a number to choose an option: ";
-            cin >> alternative;
-            while (alternative < 1 || alternative > 4) {
-                cout << "Invalid option please enter a valid option: ";
+        void monthMenu(TrackerAdd& add, vector<string>& months) {
+            while (true) {
+                int alternative;
+                cout << "1. Add Month" << endl;
+                cout << "2. Remove Month" << endl;
+                cout << "3. Edit Month Name" << endl;
+                cout << "4. Add To Month" << endl;
+                cout << "5. Back" << endl;
+                cout << "Enter a number to choose an option: ";
                 cin >> alternative;
-            }
+                while (alternative < 1 || alternative > 5) {
+                    cout << "Invalid option please enter a valid option: ";
+                    cin >> alternative;
+                }
 
-            switch (alternative) {
-                case 1:
+                if (alternative == 1) {
                     add.addMonth(months);
-                    break;
-                case 2:
+                } else if (alternative == 2) {
                     removeMonth(months);
+                } else if (alternative == 3) {
+                    cout << "placeholder";
+                } else if (alternative == 4) {
+                    selectMonth(months);
+                } else {
                     break;
-                case 3:
-                    break;
-                case 4:
-                    selectMonth(currentMonth, months);
-                    break;
-
+                }
             }
         }
         void changeYear(int& year) {
@@ -149,22 +149,29 @@ class TrackerSettings {
                 cout << "No Months Have Been Added" << endl;
                 return;
             }
-            int type;
+            string strType;
+            int intType;
             cout << "Choose which month to remove" << endl;
             for (int i = 0; i < months.size(); ++i) {
                 cout << i + 1 << ". " << months[i] << endl;
             }
             cout << "Enter a number to choose an option: ";
-            cin >> type;
+            cin >> strType;
             while (true) {
-                if (type >= 1 && type <= months.size()) {
-                    string removedMonth = months[type - 1];
-                    months.erase(months.begin() + (type - 1));
-                    cout << "Removed month: " << removedMonth << endl;
-                    break;
-                } else {
+                try {
+                    intType = stoi(strType);
+                    if (intType >= 1 && intType <= months.size()) {
+                        string removedMonth = months[intType - 1];
+                        months.erase(months.begin() + (intType - 1));
+                        cout << "Removed month: " << removedMonth << endl;
+                        break;
+                    } else {
+                        cout << "Invalid option please enter a valid option: ";
+                        cin >> strType;
+                    }
+                } catch (invalid_argument&) {
                     cout << "Invalid option please enter a valid option: ";
-                    cin >> type;
+                    cin >> strType;
                 }
             }
         }
@@ -184,7 +191,8 @@ class TrackerSettings {
             cout << "Month changed to: " << "month" << endl;
             
         };
-        void selectMonth(string currentMonth, vector<string>& months) {
+        void selectMonth(vector<string>& months) {
+            string currentMonth;
             if (months.empty()) {
                 cout << "Please Enter A Month To Edit" << endl;
                 return;
@@ -248,7 +256,7 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int& year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, int& year, bool& resetFile) {
     int intOption;
     string strOption;
     cout << "1. Add/Edit File" << endl;
@@ -271,7 +279,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         cin >> intOption;
     }
     if (intOption == 1) {
-        settings.addEditFile(add, months, currentMonth, year);
+        settings.addEditFile(add, months, year);
     } else if (intOption == 2) {
         settings.viewReport(income, expense, months, year);
     } else if (intOption == 3) {
@@ -284,7 +292,6 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     int year;
-    string currentMonth;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
     vector<string> months;
@@ -305,7 +312,7 @@ int main() {
             resetFile = false;    
         }
 
-        showMenu(add, settings, income, expense, currentMonth, months, year, resetFile);
+        showMenu(add, settings, income, expense, months, year, resetFile);
     }
 
     return 0;
