@@ -65,19 +65,24 @@ public:
 class TrackerSettings {
     public:
         void addEditFile(TrackerAdd& add, vector<string>& months, string& currentMonth, int& year) {
-            int decision;
-            cout << "1. Edit Year" << endl;
-            cout << "2. Edit Month" << endl;
-            cout << "Enter a number to choose an option: ";
-            cin >> decision;
-            while (decision < 1 || decision > 2) {
-                cout << "Invalid option please enter a valid option: ";
+            while (true) {
+                int decision;
+                cout << "1. Edit Year" << endl;
+                cout << "2. Edit Month" << endl;
+                cout << "3. Back" << endl;
+                cout << "Enter a number to choose an option: ";
                 cin >> decision;
-            }
-            if (decision == 1) {
-                changeYear(year);
-            } else  {
-                monthMenu(add, months, currentMonth);
+                while (decision < 1 || decision > 3) {
+                    cout << "Invalid option please enter a valid option: ";
+                    cin >> decision;
+                }
+                if (decision == 1) {
+                    changeYear(year);
+                } else  if (decision == 2){
+                    monthMenu(add, months, currentMonth);
+                } else {
+                    break;
+                }
             }
 
         }
@@ -98,6 +103,14 @@ class TrackerSettings {
             switch (alternative) {
                 case 1:
                     add.addMonth(months);
+                    break;
+                case 2:
+                    removeMonth(months);
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    selectMonth(currentMonth, months);
                     break;
 
             }
@@ -130,6 +143,31 @@ class TrackerSettings {
             }
 
         }
+
+        void removeMonth(vector<string>& months) {
+            if (months.empty()) {
+                cout << "No Months Have Been Added" << endl;
+                return;
+            }
+            int type;
+            cout << "Choose which month to remove" << endl;
+            for (int i = 0; i < months.size(); ++i) {
+                cout << i + 1 << ". " << months[i] << endl;
+            }
+            cout << "Enter a number to choose an option: ";
+            cin >> type;
+            while (true) {
+                if (type >= 1 && type <= months.size()) {
+                    string removedMonth = months[type - 1];
+                    months.erase(months.begin() + (type - 1));
+                    cout << "Removed month: " << removedMonth << endl;
+                    break;
+                } else {
+                    cout << "Invalid option please enter a valid option: ";
+                    cin >> type;
+                }
+            }
+        }
         void changeMonth() {
             string temp;
             cout << "Current month selected: " << "month" << endl;
@@ -152,6 +190,7 @@ class TrackerSettings {
                 return;
             }
             int selection;
+            cout << "Available months: " << endl;
             for (int i = 0; i < months.size(); ++i) {
                 cout << i + 1 << ". " << months[i] << endl;
             }
@@ -166,7 +205,7 @@ class TrackerSettings {
                     cout << "Invalid selection. Please try again." << endl;
                 }
             }
-
+            currentMonth = selection;
             cout << "Currently Editing: " << currentMonth << endl;
 
         };
@@ -210,23 +249,33 @@ class TrackerSettings {
 };
 
 void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, string currentMonth, vector<string>& months, int& year, bool& resetFile) {
-    int option;
+    int intOption;
+    string strOption;
     cout << "1. Add/Edit File" << endl;
     cout << "2. View Report" << endl;
     cout << "3. Export File" << endl;
     cout << "4. Reset File" << endl;
     cout << "Enter a number to choose an option: ";
-    cin >> option;
-    while (option < 1 || option > 4) {
-        cout << "Invalid option please enter a valid option: ";
-        cin >> option;
+    cin >> strOption;
+    while (true) {
+        try {
+            intOption = stoi(strOption);
+            break;
+        } catch (invalid_argument&) {
+            cout << "Invalid option please enter a valid option: ";
+            cin >> strOption;
+        }
     }
-    if (option == 1) {
+    while (intOption < 1 || intOption > 4) {
+        cout << "Invalid option please enter a valid option: ";
+        cin >> intOption;
+    }
+    if (intOption == 1) {
         settings.addEditFile(add, months, currentMonth, year);
-    } else if (option == 2) {
-
-    } else if (option == 3) {
+    } else if (intOption == 2) {
         settings.viewReport(income, expense, months, year);
+    } else if (intOption == 3) {
+        cout << "placeholder";
     } else {
         settings.resetFile(income, expense, months, year, resetFile);
     }
