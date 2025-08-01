@@ -144,8 +144,6 @@ public:
                 cout << "Please enter a valid number: ";
             }
         }
-
-
     }
 
     void addExpense(map<string, vector<ExpenseItem>>& expenseByMonth, const string& currentMonth) {
@@ -238,6 +236,64 @@ public:
             }
         }
     }
+    void editExpense(map<string, vector<ExpenseItem>>& expenseByMonth, const string& currentMonth) {
+        string newName, newAmountStr, input;
+        float newAmount;
+        int choice;
+
+        vector<ExpenseItem>& expenses = expenseByMonth[currentMonth];
+
+        if (expenses.empty()) {
+            cout << "No Expenses Entries To Edit For " << currentMonth << "." << endl;
+            return;
+        }
+        cout << "Expenses entries for " << currentMonth << ":" << endl;
+
+        for (int i = 0; i < expenses.size(); ++i) {
+            cout << i + 1 << ". " << expenses[i].category << " $" << expenses[i].amount << endl;
+        }
+        cout << "Type exit To Cancel" << endl;
+        cout << "Enter a number to choose an option: ";
+
+        while (true) {
+            cin >> input;
+            if (input == "exit") {
+                return;
+            }
+
+            try {
+                choice = stoi(input);
+                if (choice < 1 || choice > expenses.size()) {
+                    cout << "Invalid selection. Please try again: ";
+                } else {
+                    ExpenseItem& selected = expenses[choice - 1];
+                    cout << "Enter new name: ";
+                    cin >> newName;
+                    if (newName == "exit") {
+                        return;
+                    }
+                    cout << "Enter new amount $";
+
+                    while (true) {
+                        cin >> newAmountStr;
+
+                        try {
+                            newAmount = stof(newAmountStr);
+                            cout << selected.category << " $" << selected.amount << " changed to: " << newName << " $" << newAmount << endl;
+                            selected.category = newName;
+                            selected.amount = newAmount;
+                            return;
+                        } catch (invalid_argument&) {
+                            cout << "Invalid number. Please enter a valid amount: ";
+                        }
+                    }
+                }
+            } catch (invalid_argument&) {
+                cout << "Please enter a valid number: ";
+            }
+        }
+    }
+
     void removeMonth(vector<string>& months) {
         if (months.empty()) {
             cout << "No Months Have Been Added" << endl;
@@ -456,6 +512,10 @@ class TrackerSettings {
                     modify.addExpense(expenseByMonth, currentMonth);
                 } else if (intAlt == 5) {
                     modify.removeExpense(currentMonth, expenseByMonth);
+                } else if (intAlt == 6) {
+                    modify.editExpense(expenseByMonth, currentMonth);
+                } else {
+                    break;
                 }
             }
         }
@@ -517,7 +577,7 @@ void showMenu(TrackerModify& modify, TrackerSettings& settings, map<string, vect
                 break;
             }
         } catch (invalid_argument&) {
-            cout << "Invalid option please enter a valid option: ";
+            cout << "Invalid Option please enter a valid option: ";
         }
     }
     if (intOption == 1) {
@@ -533,6 +593,7 @@ void showMenu(TrackerModify& modify, TrackerSettings& settings, map<string, vect
 
 
 int main() {
+    string tempYear;
     int year;
     string currentMonth;
     map<string, vector<IncomeItem>> incomeByMonth;
@@ -543,14 +604,24 @@ int main() {
     TrackerSettings settings;
 
 
-    cout << "Welcome to your Personal Finance Tracker" << endl;
-    cout << "Enter the year: (2025, 2026, etc): ";
-    cin >> year;
+    cout << "Welcome To Your Personal Finance Tracker" << endl;
+    cout << "Enter The Year: (2025, 2026, etc): ";
+
+    while (true) {
+        cin >> tempYear;
+
+        try {
+            year = stoi(tempYear);
+            break;
+        }  catch (invalid_argument&) {
+            cout << "Invalid Number. Please Enter A Valid Year: ";
+        }
+    }
 
     while (true) {
         if (resetFile) {
-            cout << "Welcome to your Personal Finance Tracker" << endl;
-            cout << "Enter the year: (2025, 2026, etc): ";
+            cout << "Welcome To Your Personal Finance Tracker" << endl;
+            cout << "Enter The Year: (2025, 2026, etc): ";
             cin >> year;
             resetFile = false;    
         }
