@@ -155,8 +155,12 @@ class TrackerSettings {
             for (int i = 0; i < months.size(); ++i) {
                 cout << i + 1 << ". " << months[i] << endl;
             }
+            cout << "Type exit To Cancel" << endl;
             cout << "Enter a number to choose an option: ";
             cin >> strType;
+            if (strType == "exit") {
+                return;
+            }
             while (true) {
                 try {
                     intType = stoi(strType);
@@ -168,10 +172,16 @@ class TrackerSettings {
                     } else {
                         cout << "Invalid option please enter a valid option: ";
                         cin >> strType;
+                        if (strType == "exit") {
+                            return;
+                        }
                     }
                 } catch (invalid_argument&) {
                     cout << "Invalid option please enter a valid option: ";
                     cin >> strType;
+                    if (strType == "exit") {
+                        return;
+                    }
                 }
             }
         }
