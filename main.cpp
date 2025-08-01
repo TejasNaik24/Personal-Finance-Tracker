@@ -71,7 +71,7 @@ public:
                 } else {
                     IncomeItem removedItem = incomes[intRemoveIncome - 1];
                     incomes.erase(incomes.begin() + (intRemoveIncome - 1));
-                    cout << "Removed income: " << removedItem.category << " $" << removedItem.amount << endl;
+                    cout << "Removed income: " << removedItem.category << "$" << removedItem.amount << endl;
                     break;
                 }
             } catch (invalid_argument&) {
@@ -121,6 +121,44 @@ public:
             }
         }
 
+    }
+    void removeExpense(const string& currentMonth, map<string, vector<ExpenseItem>>& expenseByMonth) {
+        if (expenseByMonth.find(currentMonth) == expenseByMonth.end() || expenseByMonth[currentMonth].empty()) {
+            cout << "No expense items for " << currentMonth << " to remove." << endl;
+            return;
+        }
+
+        vector<ExpenseItem>& expenses = expenseByMonth[currentMonth];
+
+        cout << "Expense items for " << currentMonth << ":" << endl;
+        for (size_t i = 0; i < expenses.size(); ++i) {
+            cout << i + 1 << ". " << expenses[i].category << " $" << expenses[i].amount << endl;
+        }
+
+        int intRemoveExpense;
+        string strRemoveExpense;
+
+        cout << "Type exit To Cancel" << endl;
+        cout << "Enter a number to choose an option: ";
+        while (true) {
+            cin >> strRemoveExpense;
+            if (strRemoveExpense == "exit") {
+                return;
+            }
+            try {
+                intRemoveExpense = stoi(strRemoveExpense);
+                if (intRemoveExpense < 1 || intRemoveExpense > expenses.size()) {
+                    cout << "Invalid selection. Please try again: ";
+                } else {
+                    ExpenseItem removedItem = expenses[intRemoveExpense - 1];
+                    expenses.erase(expenses.begin() + (intRemoveExpense - 1));
+                    cout << "Removed Expense: " << removedItem.category << " $" << removedItem.amount << endl;
+                    break;
+                }
+            } catch (invalid_argument&) {
+                cout << "Invalid option please enter a valid option: ";
+            }
+        }
     }
     void removeMonth(vector<string>& months) {
         if (months.empty()) {
@@ -334,8 +372,12 @@ class TrackerSettings {
                     modify.addIncome(incomeByMonth, currentMonth);
                 } else if (intAlt == 2) {
                     modify.removeIncome(currentMonth, incomeByMonth);
-                } else {
-                    break;
+                } else if (intAlt == 3) {
+
+                } else if (intAlt == 4) {
+                    modify.addExpense(expenseByMonth, currentMonth);
+                } else if (intAlt == 5) {
+                    modify.removeExpense(currentMonth, expenseByMonth);
                 }
             }
         }
