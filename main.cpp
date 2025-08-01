@@ -69,8 +69,9 @@ public:
                 if (intRemoveIncome < 1 || intRemoveIncome > incomes.size()) {
                     cout << "Invalid selection. Please try again: ";
                 } else {
+                    IncomeItem removedItem = incomes[intRemoveIncome - 1];
                     incomes.erase(incomes.begin() + (intRemoveIncome - 1));
-                    cout << "Income item removed." << endl;
+                    cout << "Removed income: " << removedItem.category << " $" << removedItem.amount << endl;
                     break;
                 }
             } catch (invalid_argument&) {
@@ -312,15 +313,15 @@ class TrackerSettings {
                 cout << "2. Remove Income" << endl;
                 cout << "3. Edit Income" << endl;
                 cout << "4. Add Expense" << endl;
-                cout << "5. Remove Income" << endl;
-                cout << "6. Edit Income" << endl;
+                cout << "5. Remove Expense" << endl;
+                cout << "6. Edit Expense" << endl;
                 cout << "7. Exit" << endl;
                 cout << "Enter a number to choose an option: ";
                 while (true) {
                     cin >> strAlt;
                     try {
                         intAlt = stoi(strAlt);
-                        if (intAlt < 1 || intAlt > 3) {
+                        if (intAlt < 1 || intAlt > 7) {
                             cout << "Invalid option please enter a valid option: ";
                         } else {
                             break;
@@ -332,7 +333,7 @@ class TrackerSettings {
                 if (intAlt == 1) {
                     modify.addIncome(incomeByMonth, currentMonth);
                 } else if (intAlt == 2) {
-                    modify.addExpense(expenseByMonth, currentMonth);
+                    modify.removeIncome(currentMonth, incomeByMonth);
                 } else {
                     break;
                 }
