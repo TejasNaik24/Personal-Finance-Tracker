@@ -27,37 +27,6 @@ public:
         cin >> month;
         months.push_back(month);
     };
-
-    void addMenu(vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months) {
-        int intAlt;
-        string strAlt;
-        while (true) {
-            cout << "1. Add Income" << endl;
-            cout << "2. Remove Expense" << endl;
-            cout << "3. Exit" << endl;
-            cout << "Enter a number to choose an option: ";
-            while (true) {
-                cin >> strAlt;
-                try {
-                    intAlt = stoi(strAlt);
-                    if (intAlt < 1 || intAlt > 3) {
-                        cout << "Invalid option please enter a valid option: ";
-                    } else {
-                        break;
-                    }
-                } catch (invalid_argument&) {
-                    cout << "Invalid option please enter a valid option: ";
-                }
-            }
-            if (intAlt == 1) {
-                addIncome(income, months);
-            } else if (intAlt == 2) {
-                addExpense(expense, months);
-            } else {
-                break;
-            }
-        }
-    }
     void addIncome(vector<IncomeItem>& income, vector<string>& months) {
         IncomeItem item;
         cout << "Type Exit To End" << endl;
@@ -93,7 +62,7 @@ public:
 
 class TrackerSettings {
     public:
-        void addEditFile(TrackerAdd& add, vector<string>& months, int& year) {
+        void addEditFile(TrackerAdd& add, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months,  string& currentMonth, int& year) {
             int intDecision;
             string strDecision;
             while (true) {
@@ -117,7 +86,7 @@ class TrackerSettings {
                 if (intDecision == 1) {
                     changeYear(year);
                 } else if (intDecision == 2){
-                    monthMenu(add, months);
+                    monthMenu(add, income, expense, months, currentMonth);
                 } else {
                     break;
                 }
@@ -125,7 +94,7 @@ class TrackerSettings {
 
         }
 
-        void monthMenu(TrackerAdd& add, vector<string>& months) {
+        void monthMenu(TrackerAdd& add, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, string& currentMonth) {
             int intAlternative;
             string strAlternative;
             while (true) {
@@ -156,7 +125,7 @@ class TrackerSettings {
                 } else if (intAlternative == 3) {
                     changeMonthName(months);
                 } else if (intAlternative == 4) {
-                    addToMonth(months);
+                    addToMonth(add, income, expense, months, currentMonth);
                 } else {
                     break;
                 }
@@ -267,8 +236,7 @@ class TrackerSettings {
             months[intTemp - 1] = newName;
             cout << "Changed \"" << oldName << "\" to \"" << newName << "\"" << endl;
         };
-        void addToMonth(vector<string>& months) {
-            string currentMonth;
+        void addToMonth(TrackerAdd& add, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months,  string& currentMonth) {
             if (months.empty()) {
                 cout << "Please Enter A Month To Edit" << endl;
                 return;
@@ -298,9 +266,41 @@ class TrackerSettings {
                     cout << "Invalid option please enter a valid option: ";
                 }
             }
-            cout << "Currently Editing: " << currentMonth << endl;
+            addMenu(add, income, expense, months, currentMonth);
+
 
         };
+        void addMenu(TrackerAdd& add, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, string& currentMonth) {
+            int intAlt;
+            string strAlt;
+            while (true) {
+                cout << "Currently Adding to: " << currentMonth << endl;
+                cout << "1. Add Income" << endl;
+                cout << "2. Remove Expense" << endl;
+                cout << "3. Exit" << endl;
+                cout << "Enter a number to choose an option: ";
+                while (true) {
+                    cin >> strAlt;
+                    try {
+                        intAlt = stoi(strAlt);
+                        if (intAlt < 1 || intAlt > 3) {
+                            cout << "Invalid option please enter a valid option: ";
+                        } else {
+                            break;
+                        }
+                    } catch (invalid_argument&) {
+                        cout << "Invalid option please enter a valid option: ";
+                    }
+                }
+                if (intAlt == 1) {
+                    add.addIncome(income, months);
+                } else if (intAlt == 2) {
+                    add.addExpense(expense, months);
+                } else {
+                    break;
+                }
+            }
+        }
         void viewReport(const vector<IncomeItem>& income, const vector<ExpenseItem>& expense, vector<string> months, int year) {
             cout << "|" << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << "|" << endl;
             cout << "|" << right << setw(78) << year << setw(77) << "|" << endl;
@@ -340,7 +340,7 @@ class TrackerSettings {
 
 };
 
-void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months, int& year, bool& resetFile) {
+void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months,  string& currentMonth, int& year, bool& resetFile) {
     int intOption;
     string strOption;
     cout << "1. Add/Edit File" << endl;
@@ -363,7 +363,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
         }
     }
     if (intOption == 1) {
-        settings.addEditFile(add, months, year);
+        settings.addEditFile(add, income, expense, months, currentMonth, year);
     } else if (intOption == 2) {
         settings.viewReport(income, expense, months, year);
     } else if (intOption == 3) {
@@ -376,6 +376,7 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
 
 int main() {
     int year;
+    string currentMonth;
     vector<IncomeItem> income;
     vector<ExpenseItem> expense;
     vector<string> months;
@@ -396,7 +397,7 @@ int main() {
             resetFile = false;    
         }
 
-        showMenu(add, settings, income, expense, months, year, resetFile);
+        showMenu(add, settings, income, expense, months, currentMonth, year, resetFile);
     }
 
     return 0;
