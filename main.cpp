@@ -99,7 +99,6 @@ class TrackerSettings {
                 cout << "Enter a number to choose an option: ";
                 while (true) {
                     cin >> strAlternative;
-                //fix
                     try {
                         intAlternative = stoi(strAlternative);
                         if (intAlternative < 1 || intAlternative > 5) {
