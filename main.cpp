@@ -28,7 +28,7 @@ public:
         months.push_back(month);
     };
 
-    void addMenu() {
+    void addMenu(vector<IncomeItem>& income, vector<ExpenseItem>& expense, vector<string>& months) {
         int intAlt;
         string strAlt;
         while (true) {
@@ -50,9 +50,9 @@ public:
                 }
             }
             if (intAlt == 1) {
-            
+                addIncome(income, months);
             } else if (intAlt == 2) {
-            
+                addExpense(expense, months);
             } else {
                 break;
             }
