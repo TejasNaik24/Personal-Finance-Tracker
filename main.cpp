@@ -97,31 +97,27 @@ class TrackerSettings {
                 cout << "4. Add To Month" << endl;
                 cout << "5. Back" << endl;
                 cout << "Enter a number to choose an option: ";
-                cin >> strAlternative;
-
                 while (true) {
+                    cin >> strAlternative;
+                //fix
                     try {
                         intAlternative = stoi(strAlternative);
-                        break;
-
+                        if (intAlternative < 1 || intAlternative > 5) {
+                            cout << "Invalid option please enter a valid option: ";
+                        } else {
+                            break;
+                        }
                     } catch (invalid_argument&) {
                         cout << "Invalid option please enter a valid option: ";
-                        cin >> strAlternative;
+
                     }
                 }
-
-
-                while (intAlternative < 1 || intAlternative > 5) {
-                    cout << "Invalid option please enter a valid option: ";
-                    cin >> intAlternative;
-                }
-
                 if (intAlternative == 1) {
                     add.addMonth(months);
                 } else if (intAlternative == 2) {
                     removeMonth(months);
                 } else if (intAlternative == 3) {
-                    cout << "placeholder";
+                    changeMonthName(months);
                 } else if (intAlternative == 4) {
                     addToMonth(months);
                 } else {
@@ -171,11 +167,14 @@ class TrackerSettings {
             }
             cout << "Type exit To Cancel" << endl;
             cout << "Enter a number to choose an option: ";
-            cin >> strType;
-            if (strType == "exit") {
-                return;
-            }
+
             while (true) {
+                cin >> strType;
+
+                if (strType == "exit") {
+                    return;
+                }
+
                 try {
                     intType = stoi(strType);
                     if (intType >= 1 && intType <= months.size()) {
@@ -185,35 +184,51 @@ class TrackerSettings {
                         break;
                     } else {
                         cout << "Invalid option please enter a valid option: ";
-                        cin >> strType;
-                        if (strType == "exit") {
-                            return;
-                        }
                     }
                 } catch (invalid_argument&) {
                     cout << "Invalid option please enter a valid option: ";
-                    cin >> strType;
-                    if (strType == "exit") {
-                        return;
-                    }
                 }
             }
         }
-        void changeMonth() {
-            string temp;
-            cout << "Current month selected: " << "month" << endl;
-            cout << "Type exit To Cancel" << endl;
-
-            cout << "Enter new month: ";
-            cin >> temp;
-
-            if (temp == "exit") {
-                cout << "Month change cancelled." << endl;
+        void changeMonthName(vector<string>& months) {
+            if (months.empty()) {
+                cout << "No Months Have Been Added" << endl;
                 return;
             }
+            string strTemp;
+            int intTemp;
+            string newName;
+            string oldName;
+            cout << "Choose which month to change" << endl;
+            for (int i = 0; i < months.size(); ++i) {
+                cout << i + 1 << ". " << months[i] << endl;
+            }
+            cout << "Type exit To Cancel" << endl;
+            cout << "Enter a number to choose an option: ";
 
-            cout << "Month changed to: " << "month" << endl;
-            
+
+            while (true) {
+                cin >> strTemp;
+                if (strTemp == "exit") {
+                    return;
+                }
+
+                try {
+                    intTemp = stoi(strTemp);
+                    if (intTemp >= 1 && intTemp <= months.size()) {
+                        break;
+                    } else {
+                        cout << "Invalid option please enter a valid option: ";
+                    }
+                } catch (invalid_argument&) {
+                    cout << "Invalid option please enter a valid option: ";
+                }        
+            }
+            oldName = months[intTemp - 1];
+            cout << "Enter new month name: ";
+            cin >> newName;
+            months[intTemp - 1] = newName;
+            cout << "Changed \"" << oldName << "\" to \"" << newName << "\"" << endl;
         };
         void addToMonth(vector<string>& months) {
             string currentMonth;
