@@ -28,7 +28,7 @@ public:
     };
     void addIncome(map<string, vector<IncomeItem>>& incomeByMonth, const string& currentMonth) {
         IncomeItem item;
-        string strCategory;
+        string strAmount;
         cout << "Type Exit To End" << endl;
         while (true) {
            cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
@@ -38,9 +38,9 @@ public:
             };
             cout << "Enter amount: $";
             while (true) {
-                cin >> strCategory;
+                cin >> strAmount;
                 try {
-                    item.category = stoi(strCategory);
+                    item.category = stoi(strAmount);
                     incomeByMonth[currentMonth].push_back(item);
                     cout << "Added Sucessfully" << endl;
                     break;
@@ -91,19 +91,29 @@ public:
 
     void addExpense(map<string, vector<ExpenseItem>>& expenseByMonth, const string& currentMonth) {
         ExpenseItem value;
+        string strValue;
         cout << "Type exit To End" << endl;
         while (true) {
-        cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
-        cin >> value.category;
-        if (value.category == "exit" || value.category == "Exit") {
-            break;
-        };
-        cout << "Enter Amount: $";
-        cin >> value.amount;
-        expenseByMonth[currentMonth].push_back(value);
-        cout << "Added Sucessfully" << endl;
-        };
-    };
+            cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
+            cin >> value.category;
+            if (value.category == "exit" || value.category == "Exit") {
+                break;
+            };
+            cout << "Enter Amount: $";
+            while (true) {
+                cin >> strValue;
+
+                try {
+                    value.amount = stoi(strValue);
+                    expenseByMonth[currentMonth].push_back(value);
+                    cout << "Added Sucessfully" << endl;
+                    break;
+                } catch (invalid_argument&) {
+                    cout << "Invalid Number. Please Try Again: $";
+                }
+            }
+        }
+    }
     void changeYear(int& year) {
         string currentTemp;
         cout << "Current Year: " << year << endl;
