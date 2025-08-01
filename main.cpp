@@ -29,10 +29,34 @@ public:
     };
 
     void addMenu() {
-        cout << "1. Add Income" << endl;
-        cout << "2. Remove Expense" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Enter a number to choose an option: ";
+        int intAlt;
+        string strAlt;
+        while (true) {
+            cout << "1. Add Income" << endl;
+            cout << "2. Remove Expense" << endl;
+            cout << "3. Exit" << endl;
+            cout << "Enter a number to choose an option: ";
+            while (true) {
+                cin >> strAlt;
+                try {
+                    intAlt = stoi(strAlt);
+                    if (intAlt < 1 || intAlt > 3) {
+                        cout << "Invalid option please enter a valid option: ";
+                    } else {
+                        break;
+                    }
+                } catch (invalid_argument&) {
+                    cout << "Invalid option please enter a valid option: ";
+                }
+            }
+            if (intAlt == 1) {
+            
+            } else if (intAlt == 2) {
+            
+            } else {
+                break;
+            }
+        }
     }
     void addIncome(vector<IncomeItem>& income, vector<string>& months) {
         IncomeItem item;
@@ -70,9 +94,9 @@ public:
 class TrackerSettings {
     public:
         void addEditFile(TrackerAdd& add, vector<string>& months, int& year) {
+            int intDecision;
+            string strDecision;
             while (true) {
-                int intDecision;
-                string strDecision;
                 cout << "1. Edit Year" << endl;
                 cout << "2. Edit Month" << endl;
                 cout << "3. Back" << endl;
@@ -102,9 +126,9 @@ class TrackerSettings {
         }
 
         void monthMenu(TrackerAdd& add, vector<string>& months) {
+            int intAlternative;
+            string strAlternative;
             while (true) {
-                int intAlternative;
-                string strAlternative;
                 cout << "1. Add Month" << endl;
                 cout << "2. Remove Month" << endl;
                 cout << "3. Edit Month Name" << endl;
