@@ -40,7 +40,7 @@ public:
             while (true) {
                 cin >> strAmount;
                 try {
-                    item.category = stoi(strAmount);
+                    item.amount = stoi(strAmount);
                     incomeByMonth[currentMonth].push_back(item);
                     cout << "Added Sucessfully" << endl;
                     break;
@@ -87,6 +87,65 @@ public:
                 cout << "Invalid option please enter a valid option: ";
             }
         }
+    }
+    void editIncome(map<string, vector<IncomeItem>>& incomeByMonth, const string& currentMonth) {
+        string newName, newAmountStr, input;
+        float newAmount;
+        int choice;
+        vector<IncomeItem>& incomes = incomeByMonth[currentMonth];
+
+        if (incomes.empty()) {
+            cout << "No income entries to edit for " << currentMonth << "." << endl;
+            return;
+        }
+        cout << "Income entries for " << currentMonth << ":" << endl;
+
+        for (int i = 0; i < incomes.size(); ++i) {
+            cout << i + 1 << ". " << incomes[i].category << " $" << incomes[i].amount << endl;
+        }
+
+        cout << "Type exit To Cancel" << endl;
+        cout << "Enter a number to choose an option: ";
+
+        while (true) {
+            cin >> input;
+            if (input == "exit") {
+                return;
+            }
+
+            try {
+                choice = stoi(input);
+                if (choice < 1 || choice > incomes.size()) {
+                    cout << "Invalid selection. Please try again: ";
+                } else {
+                    IncomeItem& selected = incomes[choice - 1];
+                    cout << "Enter new name: ";
+                    cin >> newName;
+                    if (newName == "exit") {
+                        return;
+                    }
+                    cout << "Enter new amount $";
+
+                    while (true) {
+                        cin >> newAmountStr;
+
+                        try {
+                            newAmount = stof(newAmountStr);
+                            cout << selected.category << " $" << selected.amount << " changed to: " << newName << " $" << newAmount << endl;
+                            selected.category = newName;
+                            selected.amount = newAmount;
+                            return;
+                        } catch (invalid_argument&) {
+                            cout << "Invalid number. Please enter a valid amount: ";
+                        }
+                    }
+                }
+            } catch (invalid_argument&) {
+                cout << "Please enter a valid number: ";
+            }
+        }
+
+
     }
 
     void addExpense(map<string, vector<ExpenseItem>>& expenseByMonth, const string& currentMonth) {
@@ -392,7 +451,7 @@ class TrackerSettings {
                 } else if (intAlt == 2) {
                     modify.removeIncome(currentMonth, incomeByMonth);
                 } else if (intAlt == 3) {
-
+                    modify.editIncome(incomeByMonth, currentMonth);
                 } else if (intAlt == 4) {
                     modify.addExpense(expenseByMonth, currentMonth);
                 } else if (intAlt == 5) {
