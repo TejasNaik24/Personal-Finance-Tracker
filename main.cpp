@@ -28,7 +28,12 @@ public:
         months.push_back(month);
     };
 
-
+    void addMenu() {
+        cout << "1. Add Income" << endl;
+        cout << "2. Remove Expense" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter a number to choose an option: ";
+    }
     void addIncome(vector<IncomeItem>& income, vector<string>& months) {
         IncomeItem item;
         cout << "Type Exit To End" << endl;
@@ -66,19 +71,28 @@ class TrackerSettings {
     public:
         void addEditFile(TrackerAdd& add, vector<string>& months, int& year) {
             while (true) {
-                int decision;
+                int intDecision;
+                string strDecision;
                 cout << "1. Edit Year" << endl;
                 cout << "2. Edit Month" << endl;
                 cout << "3. Back" << endl;
                 cout << "Enter a number to choose an option: ";
-                cin >> decision;
-                while (decision < 1 || decision > 3) {
-                    cout << "Invalid option please enter a valid option: ";
-                    cin >> decision;
+                while (true) {
+                    cin >> strDecision;
+                    try {
+                        intDecision = stoi(strDecision);
+                        if (intDecision < 1 || intDecision > 3) {
+                            cout << "Invalid option please enter a valid option: ";
+                        } else {
+                            break;
+                        }
+                    } catch (invalid_argument&) {
+                        cout << "Invalid option please enter a valid option: ";
+                    }
                 }
-                if (decision == 1) {
+                if (intDecision == 1) {
                     changeYear(year);
-                } else if (decision == 2){
+                } else if (intDecision == 2){
                     monthMenu(add, months);
                 } else {
                     break;
@@ -243,11 +257,11 @@ class TrackerSettings {
             }
             cout << "Type exit To Cancel" << endl;
             cout << "Enter a number to choose an option: ";
-            cin >> strSelection;
-            if (strSelection == "exit") {
-                return;
-            }
             while (true) {
+                cin >> strSelection;
+                if (strSelection == "exit") {
+                    return;
+                }
                 try {
                     intSelection = stoi(strSelection);
                     if (intSelection >= 1 && intSelection <= months.size()) {
@@ -255,17 +269,9 @@ class TrackerSettings {
                         break;
                     } else {
                         cout << "Invalid selection. Please try again: ";
-                        cin >> strSelection;
-                        if (strSelection == "exit") {
-                            return;
-                        }
                     }
                 } catch (invalid_argument&) {
                     cout << "Invalid option please enter a valid option: ";
-                    cin >> strSelection;
-                    if (strSelection == "exit") {
-                        return;
-                    }
                 }
             }
             cout << "Currently Editing: " << currentMonth << endl;
