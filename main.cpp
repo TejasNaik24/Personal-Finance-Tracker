@@ -28,6 +28,7 @@ public:
     };
     void addIncome(map<string, vector<IncomeItem>>& incomeByMonth, const string& currentMonth) {
         IncomeItem item;
+        string strCategory;
         cout << "Type Exit To End" << endl;
         while (true) {
            cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
@@ -36,9 +37,17 @@ public:
                 break;
             };
             cout << "Enter amount: $";
-            cin >> item.amount;
-            incomeByMonth[currentMonth].push_back(item);
-            cout << "Added Sucessfully" << endl;
+            while (true) {
+                cin >> strCategory;
+                try {
+                    item.category = stoi(strCategory);
+                    incomeByMonth[currentMonth].push_back(item);
+                    cout << "Added Sucessfully" << endl;
+                    break;
+                } catch (invalid_argument&) {
+                     cout << "Invalid Number. Please Try Again: $";
+                }
+            }
         };
     };
     void removeIncome(const string& currentMonth, map<string, vector<IncomeItem>>& incomeByMonth) {
