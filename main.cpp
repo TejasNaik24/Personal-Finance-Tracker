@@ -41,6 +41,44 @@ public:
             cout << "Added Sucessfully" << endl;
         };
     };
+    void removeIncome(const string& currentMonth, map<string, vector<IncomeItem>>& incomeByMonth) {
+        if (incomeByMonth.find(currentMonth) == incomeByMonth.end() || incomeByMonth[currentMonth].empty()) {
+            cout << "No income items for " << currentMonth << " to remove." << endl;
+            return;
+        }
+
+        vector<IncomeItem>& incomes = incomeByMonth[currentMonth];
+
+        cout << "Income items for " << currentMonth << ":\n";
+        for (size_t i = 0; i < incomes.size(); ++i) {
+            cout << i + 1 << ". " << incomes[i].category << " $" << incomes[i].amount << endl;
+        }
+
+        int intRemoveIncome;
+        string strRemoveIncome;
+
+        cout << "Type exit To Cancel" << endl;
+        cout << "Enter a number to choose an option: ";
+        while (true) {
+            cin >> strRemoveIncome;
+            if (strRemoveIncome == "exit") {
+                return;
+            }
+            try {
+                intRemoveIncome = stoi(strRemoveIncome);
+                if (intRemoveIncome < 1 || intRemoveIncome > incomes.size()) {
+                    cout << "Invalid selection. Please try again: ";
+                } else {
+                    incomes.erase(incomes.begin() + (intRemoveIncome - 1));
+                    cout << "Income item removed." << endl;
+                    break;
+                }
+            } catch (invalid_argument&) {
+                cout << "Invalid option please enter a valid option: ";
+            }
+        }
+    }
+
     void addExpense(map<string, vector<ExpenseItem>>& expenseByMonth, const string& currentMonth) {
         ExpenseItem value;
         cout << "Type exit To End" << endl;
@@ -269,13 +307,13 @@ class TrackerSettings {
             int intAlt;
             string strAlt;
             while (true) {
-                cout << "Month Selected: " << currentMonth << endl;
+                cout << "Editing: " << currentMonth << endl;
                 cout << "1. Add Income" << endl;
-                cout << "2. Edit Income" << endl;
-                cout << "3. Remove Income" << endl;
+                cout << "2. Remove Income" << endl;
+                cout << "3. Edit Income" << endl;
                 cout << "4. Add Expense" << endl;
-                cout << "5. Edit Income" << endl;
-                cout << "6. Remove Income" << endl;
+                cout << "5. Remove Income" << endl;
+                cout << "6. Edit Income" << endl;
                 cout << "7. Exit" << endl;
                 cout << "Enter a number to choose an option: ";
                 while (true) {
