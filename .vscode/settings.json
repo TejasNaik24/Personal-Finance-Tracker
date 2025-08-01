@@ -10,6 +10,7 @@
     "type_traits": "cpp",
     "limits": "cpp",
     "ratio": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "stdexcept": "cpp"
   }
 }

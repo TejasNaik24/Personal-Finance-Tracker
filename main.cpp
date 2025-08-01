@@ -89,26 +89,40 @@ class TrackerSettings {
 
         void monthMenu(TrackerAdd& add, vector<string>& months) {
             while (true) {
-                int alternative;
+                int intAlternative;
+                string strAlternative;
                 cout << "1. Add Month" << endl;
                 cout << "2. Remove Month" << endl;
                 cout << "3. Edit Month Name" << endl;
                 cout << "4. Add To Month" << endl;
                 cout << "5. Back" << endl;
                 cout << "Enter a number to choose an option: ";
-                cin >> alternative;
-                while (alternative < 1 || alternative > 5) {
-                    cout << "Invalid option please enter a valid option: ";
-                    cin >> alternative;
+                cin >> strAlternative;
+
+                while (true) {
+                    try {
+                        intAlternative = stoi(strAlternative);
+                        break;
+
+                    } catch (invalid_argument&) {
+                        cout << "Invalid option please enter a valid option: ";
+                        cin >> strAlternative;
+                    }
                 }
 
-                if (alternative == 1) {
+
+                while (intAlternative < 1 || intAlternative > 5) {
+                    cout << "Invalid option please enter a valid option: ";
+                    cin >> intAlternative;
+                }
+
+                if (intAlternative == 1) {
                     add.addMonth(months);
-                } else if (alternative == 2) {
+                } else if (intAlternative == 2) {
                     removeMonth(months);
-                } else if (alternative == 3) {
+                } else if (intAlternative == 3) {
                     cout << "placeholder";
-                } else if (alternative == 4) {
+                } else if (intAlternative == 4) {
                     addToMonth(months);
                 } else {
                     break;
@@ -290,19 +304,19 @@ void showMenu(TrackerAdd& add, TrackerSettings& settings, vector<IncomeItem>& in
     cout << "3. Export File" << endl;
     cout << "4. Reset File" << endl;
     cout << "Enter a number to choose an option: ";
-    cin >> strOption;
     while (true) {
+        cin >> strOption;
+
         try {
             intOption = stoi(strOption);
-            break;
+            if (intOption < 1 || intOption > 4) {
+                cout << "Invalid option please enter a valid option: ";
+            } else {
+                break;
+            }
         } catch (invalid_argument&) {
             cout << "Invalid option please enter a valid option: ";
-            cin >> strOption;
         }
-    }
-    while (intOption < 1 || intOption > 4) {
-        cout << "Invalid option please enter a valid option: ";
-        cin >> intOption;
     }
     if (intOption == 1) {
         settings.addEditFile(add, months, year);
