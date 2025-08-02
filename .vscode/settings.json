@@ -11,6 +11,7 @@
     "limits": "cpp",
     "ratio": "cpp",
     "variant": "cpp",
-    "stdexcept": "cpp"
+    "stdexcept": "cpp",
+    "iomanip": "cpp"
   }
 }

@@ -537,46 +537,114 @@ class TrackerSettings {
             cout << "|" << string(padLeft, ' ') << year << string(padRight, ' ') << "|" << endl;
             cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
-            cout << "|" << left << setw(columnWidth) << "CATEGORY" << "|";
+            cout << "|" << left << setw(columnWidth) << "Category" << "|";
 
             for (const string& month : months) {
                 cout << left << setw(columnWidth) << month.substr(0, columnWidth) << "|";
             }
 
-            cout << left << setw(columnWidth) << "TOTAL" << "|" << endl;
+            cout << left << setw(columnWidth) << "Total" << "|" << endl;
             cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
-            cout << "|" << left << setw(columnWidth) << "INCOME" << "|";
+            if (!incomeByMonth.empty()) {
+                cout << "|" << left << setw(columnWidth) << "Income" << "|";
+                for (int i = 0; i < monthCount + 1; ++i) {
+                    cout << string(columnWidth, ' ') << "|";
+                }
+                cout << endl;
+                cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+
+
+                // Get all user-entered income categories
+                vector<string> incomeCategories;
+                for (const string& month : months) {
+                    if (incomeByMonth.count(month)) {
+                        for (const IncomeItem& item : incomeByMonth.at(month)) {
+                            if (find(incomeCategories.begin(), incomeCategories.end(), item.category) == incomeCategories.end()) {
+                                incomeCategories.push_back(item.category);
+                            }
+                        }
+                    }
+                }
+
+                // Print each income category row
+                for (const string& category : incomeCategories) {
+                    cout << "|" << left << setw(columnWidth) << category << "|";
+                    float totalCategory = 0.0;
+                
+                    for (const string& month : months) {
+                        float sum = 0.0;
+                        if (incomeByMonth.count(month)) {
+                            for (const IncomeItem& item : incomeByMonth.at(month)) {
+                                if (item.category == category) {
+                                    sum += item.amount;
+                                }
+                            }
+                        }
+                        totalCategory += sum;
+                        cout << left << setw(columnWidth) << fixed << setprecision(2) << sum << "|";
+                    }
+                
+                    cout << left << setw(columnWidth) << fixed << setprecision(2) << totalCategory << "|" << endl;
+                    cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+                }
+
+                // Print "Total Income" row
+                cout << "|" << left << setw(columnWidth) << "Total Income" << "|";
+                float grandTotal = 0.0;
+
+                for (const string& month : months) {
+                    float monthTotal = 0.0;
+                    if (incomeByMonth.count(month)) {
+                        for (const IncomeItem& item : incomeByMonth.at(month)) {
+                            monthTotal += item.amount;
+                        }
+                    }
+                    grandTotal += monthTotal;
+                    cout << left << setw(columnWidth) << fixed << setprecision(2) << monthTotal << "|";
+                }
+
+                cout << left << setw(columnWidth) << fixed << setprecision(2) << grandTotal << "|" << endl;
+                cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+            } else {
+                cout << "|" << left << setw(columnWidth) << "No Income Data" << "|";
+                for (int i = 0; i < monthCount + 1; ++i) {
+                    cout << string(columnWidth, ' ') << "|";
+                }
+                cout << endl;
+                cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+            }
+            //expenes
+            cout << "|" << left << setw(columnWidth) << "Expenses" << "|";
             for (int i = 0; i < monthCount + 1; ++i) {
                 cout << string(columnWidth, ' ') << "|";
             }
             cout << endl;
             cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
-
-            // Get all user-entered income categories
-            vector<string> incomeCategories;
+            vector<string> expensesCategories;
             for (const string& month : months) {
-                if (incomeByMonth.count(month)) {
-                    for (const IncomeItem& item : incomeByMonth.at(month)) {
-                        if (find(incomeCategories.begin(), incomeCategories.end(), item.category) == incomeCategories.end()) {
-                            incomeCategories.push_back(item.category);
+                if (expenseByMonth.count(month)) {
+                    for (const ExpenseItem& value : expenseByMonth.at(month)) {
+                        if (find(expensesCategories.begin(), expensesCategories.end(), value.category) == expensesCategories.end()) {
+                            expensesCategories.push_back(value.category);
                         }
                     }
                 }
             }
 
-            // Print each income category row
-            for (const string& category : incomeCategories) {
+
+            // Print each expesnes category row
+            for (const string& category : expensesCategories) {
                 cout << "|" << left << setw(columnWidth) << category << "|";
                 float totalCategory = 0.0;
             
                 for (const string& month : months) {
                     float sum = 0.0;
-                    if (incomeByMonth.count(month)) {
-                        for (const IncomeItem& item : incomeByMonth.at(month)) {
-                            if (item.category == category) {
-                                sum += item.amount;
+                    if (expenseByMonth.count(month)) {
+                        for (const ExpenseItem& value : expenseByMonth.at(month)) {
+                            if (value.category == category) {
+                                sum += value.amount;
                             }
                         }
                     }
@@ -588,24 +656,20 @@ class TrackerSettings {
                 cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
             }
 
-            // Print "Total Income" row
-            cout << "|" << left << setw(columnWidth) << "Total Income" << "|";
-            cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+            cout << "|" << left << setw(columnWidth) << "Total Expenses" << "|";
             float grandTotal = 0.0;
-
             for (const string& month : months) {
                 float monthTotal = 0.0;
-                if (incomeByMonth.count(month)) {
-                    for (const IncomeItem& item : incomeByMonth.at(month)) {
+                if (expenseByMonth.count(month)) {
+                    for (const ExpenseItem& item : expenseByMonth.at(month)) {
                         monthTotal += item.amount;
                     }
                 }
                 grandTotal += monthTotal;
                 cout << left << setw(columnWidth) << fixed << setprecision(2) << monthTotal << "|";
             }
-
             cout << left << setw(columnWidth) << fixed << setprecision(2) << grandTotal << "|" << endl;
-
+            cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
         }
         void exportFile() {
