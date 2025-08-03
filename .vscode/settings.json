@@ -12,6 +12,8 @@
     "ratio": "cpp",
     "variant": "cpp",
     "stdexcept": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "ios": "cpp",
+    "string": "cpp"
   }
 }
