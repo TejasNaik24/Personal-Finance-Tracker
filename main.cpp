@@ -721,41 +721,56 @@ class TrackerSettings {
         void exportFile() {
 
         };
-        void resetFile(map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string> months, int year, bool& resetFile) {
-            char choice;
+        void resetFile(map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months, int year, bool& resetFile) {
+            string choice;
             cout << "Are you sure you want to reset your file? (This Will Reset Everything) y/n: ";
             cin >> choice;
-            while (choice != 'n' && choice != 'N' && choice != 'y' && choice != 'Y') {
+            while (choice != "n" && choice != "N" && choice != "y" && choice != "Y") {
                 cout << "Invalid option please enter a valid option: ";
                 cin >> choice;
             }
-            if (choice == 'n' || choice == 'N') {
+            if (choice == "n" || choice == "N") {
                 return;
             }
+            months.clear();
             incomeByMonth.clear();
             expenseByMonth.clear();
-            months.clear();
             year = 0;
             cout << "Sucessfully Reset file" << endl;
             resetFile = true;
         }
 
+        void endCode(bool& end) {
+            string done;
+            cout << "Are you sure you want to exit? (All data will be lost) y/n: ";
+            cin >> done;
+            while (done != "n" && done != "N" && done != "y" && done != "Y") {
+                cout << "Invalid option please enter a valid option: ";
+                cin >> done;
+            }
+            if (done == "n" || done == "N") {
+                return;
+            }
+            end = true;
+        }
+
 };
 
-void showMenu(TrackerModify& modify, TrackerSettings& settings, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months,  string& currentMonth, int& year, bool& resetFile) {
+void showMenu(TrackerModify& modify, TrackerSettings& settings, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months,  string& currentMonth, int& year, bool& resetFile, bool& end) {
     int intOption;
     string strOption;
     cout << "1. Add/Edit File" << endl;
     cout << "2. View Report" << endl;
     cout << "3. Export File" << endl;
     cout << "4. Reset File" << endl;
+    cout << "5. Exit" << endl;
     cout << "Enter a number to choose an option: ";
     while (true) {
         cin >> strOption;
 
         try {
             intOption = stoi(strOption);
-            if (intOption < 1 || intOption > 4) {
+            if (intOption < 1 || intOption > 5) {
                 cout << "Invalid option please enter a valid option: ";
             } else {
                 break;
@@ -770,8 +785,10 @@ void showMenu(TrackerModify& modify, TrackerSettings& settings, map<string, vect
         settings.viewReport(incomeByMonth, expenseByMonth, months, year);
     } else if (intOption == 3) {
         cout << "placeholder";
-    } else {
+    } else if (intOption == 4) {
         settings.resetFile(incomeByMonth, expenseByMonth, months, year, resetFile);
+    } else {
+        settings.endCode(end);
     }
 }
 
@@ -784,6 +801,7 @@ int main() {
     map<string, vector<ExpenseItem>> expenseByMonth;
     vector<string> months;
     bool resetFile = false;
+    bool end = false;
     TrackerModify modify;
     TrackerSettings settings;
 
@@ -802,7 +820,7 @@ int main() {
         }
     }
 
-    while (true) {
+    while (!end) {
         if (resetFile) {
             cout << "Welcome To Your Personal Finance Tracker" << endl;
             cout << "Enter The Year: (2025, 2026, etc): ";
@@ -810,7 +828,7 @@ int main() {
             resetFile = false;    
         }
 
-        showMenu(modify, settings, incomeByMonth, expenseByMonth, months, currentMonth, year, resetFile);
+        showMenu(modify, settings, incomeByMonth, expenseByMonth, months, currentMonth, year, resetFile, end);
     }
 
     return 0;
