@@ -679,6 +679,35 @@ class TrackerSettings {
                 cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
             }
+            if (!incomeByMonth.empty() || !expenseByMonth.empty()) {
+                cout << "|" << left << setw(columnWidth) << "Net Saving" << "|";
+                float TotalNetSaving = 0.0;
+
+                for (const string& month : months) {
+                    float totalIncome = 0.0;
+                    float totalExpenses = 0.0;
+                    if (incomeByMonth.count(month)) {
+                        for (const IncomeItem& item : incomeByMonth.at(month)) {
+                            totalIncome += item.amount;
+                        }
+                    }
+                
+                    if (expenseByMonth.count(month)) {
+                        for (const ExpenseItem& item : expenseByMonth.at(month)) {
+                            totalExpenses += item.amount;
+                        }
+                    }
+                
+                    float netSaving = totalIncome - totalExpenses;
+                    TotalNetSaving += netSaving;
+                    cout << setw(columnWidth) << fixed << setprecision(2) << netSaving << "|";
+                }
+                cout << left << setw(columnWidth) << fixed << setprecision(2) << TotalNetSaving << "|" << endl;
+                cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
+            }
+            
+            
+
         }
         void exportFile() {
 
