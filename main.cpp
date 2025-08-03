@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <cctype>
 
 using namespace std;
 
@@ -18,6 +19,28 @@ struct ExpenseItem {
     string category;
     float amount;
 };
+
+string toTitleCase(string s) {
+    if (s.empty()) {
+        return s;
+    }
+
+    // Convert the entire string to lowercase first
+    for (char &c : s) {
+        c = tolower(static_cast<unsigned char>(c));
+    }
+
+    // Capitalize the first letter
+    s[0] = toupper(static_cast<unsigned char>(s[0]));
+
+    // Capitalize the first letter after each space
+    for (size_t i = 1; i < s.length(); ++i) {
+        if (s[i-1] == ' ' && isalpha(static_cast<unsigned char>(s[i]))) {
+            s[i] = toupper(static_cast<unsigned char>(s[i]));
+        }
+    }
+    return s;
+}
 
 class TrackerSettings;
 
@@ -74,6 +97,7 @@ void TrackerModify::addMonth() {
     string month;
     cout << "Enter the month: (January, February, etc): ";
     cin >> month;
+    month = toTitleCase(month);
     settings.getMonthsMutable().push_back(month);
 }
 
@@ -84,7 +108,8 @@ void TrackerModify::addIncome() {
     while (true) {
        cout << "Name Of Income (Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends, Etc): ";
         cin >> item.category;
-        if (item.category == "exit" || item.category == "Exit") {
+        item.category = toTitleCase(item.category);
+        if (item.category == "Exit") {
             break;
         }
         cout << "Enter amount: $";
@@ -179,6 +204,7 @@ void TrackerModify::editIncome() {
                 IncomeItem& selected = incomes[choice - 1];
                 cout << "Enter new name: ";
                 cin >> newName;
+                newName = toTitleCase(newName);
                 if (newName == "exit") {
                     return;
                 }
@@ -211,7 +237,8 @@ void TrackerModify::addExpense() {
     while (true) {
         cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
         cin >> value.category;
-        if (value.category == "exit" || value.category == "Exit") {
+        value.category = toTitleCase(value.category);
+        if (value.category == "Exit") {
             break;
         }
         cout << "Enter Amount: $";
@@ -335,7 +362,8 @@ void TrackerModify::editExpense() {
                 ExpenseItem& selected = expenses[choice - 1];
                 cout << "Enter new name: ";
                 cin >> newName;
-                if (newName == "exit") {
+                newName = toTitleCase(newName);
+                if (newName == "Exit") {
                     return;
                 }
                 cout << "Enter new amount $";
@@ -435,6 +463,7 @@ void TrackerModify::changeMonthName() {
     oldName = months[intTemp - 1];
     cout << "Enter new month name: ";
     cin >> newName;
+    newName = toTitleCase(newName);
     months[intTemp - 1] = newName;
     cout << "Changed \"" << oldName << "\" to \"" << newName << "\"" << endl;
 }
