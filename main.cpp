@@ -379,13 +379,14 @@ class TrackerSettings {
             while (true) {
                 cout << "1. Edit Year" << endl;
                 cout << "2. Edit Month" << endl;
-                cout << "3. Back" << endl;
+                cout << "3. View Report" << endl;
+                cout << "4. Back" << endl;
                 cout << "Enter a number to choose an option: ";
                 while (true) {
                     cin >> strDecision;
                     try {
                         intDecision = stoi(strDecision);
-                        if (intDecision < 1 || intDecision > 3) {
+                        if (intDecision < 1 || intDecision > 4) {
                             cout << "Invalid option please enter a valid option: ";
                         } else {
                             break;
@@ -396,8 +397,10 @@ class TrackerSettings {
                 }
                 if (intDecision == 1) {
                     modify.changeYear(year);
-                } else if (intDecision == 2){
-                    monthMenu(modify, incomeByMonth, expenseByMonth, months, currentMonth);
+                } else if (intDecision == 2) {
+                    monthMenu(modify, incomeByMonth, expenseByMonth, months, currentMonth, year);
+                } else if (intDecision == 3) {
+                    viewReport(incomeByMonth, expenseByMonth, months, year);
                 } else {
                     break;
                 }
@@ -405,7 +408,7 @@ class TrackerSettings {
 
         }
 
-        void monthMenu(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months, string& currentMonth) {
+        void monthMenu(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months, string& currentMonth, int& year) {
             int intAlternative;
             string strAlternative;
             while (true) {
@@ -413,13 +416,14 @@ class TrackerSettings {
                 cout << "2. Remove Month" << endl;
                 cout << "3. Edit Month Name" << endl;
                 cout << "4. Add To Month" << endl;
-                cout << "5. Back" << endl;
+                cout << "5. View Report" << endl;
+                cout << "6. Back" << endl;
                 cout << "Enter a number to choose an option: ";
                 while (true) {
                     cin >> strAlternative;
                     try {
                         intAlternative = stoi(strAlternative);
-                        if (intAlternative < 1 || intAlternative > 5) {
+                        if (intAlternative < 1 || intAlternative > 6) {
                             cout << "Invalid option please enter a valid option: ";
                         } else {
                             break;
@@ -436,13 +440,15 @@ class TrackerSettings {
                 } else if (intAlternative == 3) {
                     modify.changeMonthName(months);
                 } else if (intAlternative == 4) {
-                    addToMonth(modify, incomeByMonth, expenseByMonth, months, currentMonth);
+                    addToMonth(modify, incomeByMonth, expenseByMonth, months, currentMonth, year);
+                } else if (intAlternative == 5) {
+                    viewReport(incomeByMonth, expenseByMonth, months, year);
                 } else {
                     break;
                 }
             }
         }
-        void addToMonth(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months,  string& currentMonth) {
+        void addToMonth(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months,  string& currentMonth, int& year) {
             if (months.empty()) {
                 cout << "Please Enter A Month To Edit" << endl;
                 return;
@@ -472,11 +478,11 @@ class TrackerSettings {
                     cout << "Invalid option please enter a valid option: ";
                 }
             }
-            toggleTable(modify, incomeByMonth, expenseByMonth, months, currentMonth);
+            toggleTable(modify, incomeByMonth, expenseByMonth, months, currentMonth, year);
 
 
         };
-        void toggleTable(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months, string& currentMonth) {
+        void toggleTable(TrackerModify& modify, map<string, vector<IncomeItem>>& incomeByMonth, map<string, vector<ExpenseItem>>& expenseByMonth, vector<string>& months, string& currentMonth, int& year) {
             int intAlt;
             string strAlt;
             while (true) {
@@ -487,13 +493,14 @@ class TrackerSettings {
                 cout << "4. Add Expense" << endl;
                 cout << "5. Remove Expense" << endl;
                 cout << "6. Edit Expense" << endl;
-                cout << "7. Exit" << endl;
+                cout << "7. View Report" << endl;
+                cout << "8. Exit" << endl;
                 cout << "Enter a number to choose an option: ";
                 while (true) {
                     cin >> strAlt;
                     try {
                         intAlt = stoi(strAlt);
-                        if (intAlt < 1 || intAlt > 7) {
+                        if (intAlt < 1 || intAlt > 8) {
                             cout << "Invalid option please enter a valid option: ";
                         } else {
                             break;
@@ -514,6 +521,8 @@ class TrackerSettings {
                     modify.removeExpense(currentMonth, expenseByMonth);
                 } else if (intAlt == 6) {
                     modify.editExpense(expenseByMonth, currentMonth);
+                } else if (intAlt == 7) {
+                    viewReport(incomeByMonth, expenseByMonth, months, year);
                 } else {
                     break;
                 }
