@@ -25,15 +25,12 @@ string toTitleCase(string s) {
         return s;
     }
 
-    // Convert the entire string to lowercase first
     for (char &c : s) {
         c = tolower(static_cast<unsigned char>(c));
     }
 
-    // Capitalize the first letter
     s[0] = toupper(static_cast<unsigned char>(s[0]));
 
-    // Capitalize the first letter after each space
     for (size_t i = 1; i < s.length(); ++i) {
         if (s[i-1] == ' ' && isalpha(static_cast<unsigned char>(s[i]))) {
             s[i] = toupper(static_cast<unsigned char>(s[i]));
