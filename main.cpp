@@ -90,7 +90,6 @@ private:
     map<string, vector<IncomeItem>> incomeByMonth;
     map<string, vector<ExpenseItem>> expenseByMonth;
     vector<string> months;
-    bool resetFile = false;
     bool end = false;
 
 public:
@@ -101,7 +100,6 @@ public:
     vector<string>& getMonthsMutable() { return months; }
     int& getYearMutable() { return year; }
     string& getCurrentMonthMutable() { return currentMonth; }
-    bool getEndStatus() const { return end; }
 
     void addEditFile(TrackerModify& modify);
     void monthMenu(TrackerModify& modify);
@@ -1052,9 +1050,8 @@ void TrackerSettings::resetFileFunction() {
     months.clear();
     incomeByMonth.clear();
     expenseByMonth.clear();
-    year = 0;
+    year = 00000;
     cout << "Sucessfully Reset file" << endl;
-    resetFile = true;
 }
 
 void TrackerSettings::endCode() {
@@ -1112,22 +1109,24 @@ int main() {
     TrackerModify modify(settings);
     string yearInput;
 
-    cout << "Welcome To Your Personal Finance Tracker" << endl;
-    cout << "Enter The Year: (2025, 2026, etc): ";
-
     while (true) {
-        cin >> yearInput;
+        cout << "Welcome To Your Personal Finance Tracker" << endl;
+        cout << "Enter The Year: (2025, 2026, etc): ";
 
-        try {
-            settings.getYearMutable() = stoi(yearInput);
-            break;
-        } catch (invalid_argument&) {
-            cout << "Invalid Number. Please Enter A Valid Year: ";
+        while (true) {
+            cin >> yearInput;
+
+            try {
+                settings.getYearMutable() = stoi(yearInput);
+                break;
+            } catch (invalid_argument&) {
+                cout << "Invalid Number. Please Enter A Valid Year: ";
+            }
         }
-    }
+        while (settings.getYearMutable() != 00000) {
+            showMenu(modify, settings);
+        }
 
-    while (!settings.getEndStatus()) {
-        showMenu(modify, settings);
     }
 
     return 0;
