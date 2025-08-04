@@ -180,7 +180,7 @@ void TrackerModify::removeIncome() {
             } else {
                 IncomeItem removedItem = incomes[intRemoveIncome - 1];
                 incomes.erase(incomes.begin() + (intRemoveIncome - 1));
-                cout << "Removed income: " << removedItem.category << "$" << removedItem.amount << endl;
+                cout << "Removed income: " << removedItem.category << " $" << removedItem.amount << endl;
                 break;
             }
         } catch (invalid_argument&) {
