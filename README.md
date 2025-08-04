@@ -4,7 +4,6 @@ A Personal Finance tracker written in **C++**. It allows users to keep track of 
 edit financial data, generate monthly reports, and export financial data to CSV. The program demonstrates 
 **object-oriented programming**, **file I/O**, **data formatting**, and **robust user input handling**.
 
----
 
 ## Features
 
@@ -15,14 +14,12 @@ edit financial data, generate monthly reports, and export financial data to CSV.
 - 📁 **CSV Export**: Export all finance data to a structured file for spreadsheet use  
 - 🧠 **Input Validation**: Handles invalid inputs gracefully  
 
----
 
 ## Sample Categories
 
 - **Income**: Salary, Freelance, Side Gigs, Bonuses, Tips, Rental, Dividends  
 - **Expenses**: Food, Rent, Utilities, Entertainment, Transportation  
 
----
 
 ## Technologies Used
 
@@ -40,26 +37,24 @@ edit financial data, generate monthly reports, and export financial data to CSV.
   #include <stdexcept>
   ```
 
----
 
 ## How to Use
 
-1. **clone repo** 
-   ```sh
-   git clone https://github.com/TejasNaik24/Personal-Finance-Tracker.git
+In order to run the program:
+
+1. Make sure you have a C++ compiler installed (like `g++`).
+2. Open your terminal in the project directory.
+3. To compile the program, run:
+   ```bash
+   g++ -std=c++11 main.cpp -o main
    ```
-
-2. **Run** the code:
-
-   Simply type:
-   ```sh
+4. To run the program, use:
+   ```bash
    ./main
    ```
-   To run the program
 
-4. Follow the **menu prompts** to add months, income, expenses, or generate reports.
+5. Follow the **menu prompts** to add months, income, expenses, or generate reports.
 
----
 
 ## Sample Menu Output
 
@@ -174,12 +169,8 @@ Enter a number to choose an option:
 
 ```
 
----
-
 ## File Structure
 
-- `main.cpp` — Main program logic  
-- `TrackerSettings` — Handles data storage and report generation  
-- `TrackerModify` — Manages modification logic for income/expense/month
-
-
+- `main` — Main program logic and entry point  
+- `TrackerSettings` — Handles data storage, reporting, and CSV export  
+- `TrackerModify` — Manages all income, expense, and month modification operations
