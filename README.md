@@ -7,12 +7,12 @@ edit financial data, generate monthly reports, and export financial data to CSV.
 
 ## Features
 
-- 📆 **Monthly Tracking**: Add, edit, rename, or delete months  
-- 💵 **Income Tracking**: Add, edit, or remove income entries by category  
-- 💸 **Expense Tracking**: Add, edit, or remove expense entries by category  
-- 🧾 **Report Generation**: View monthly financial reports formatted in a clean table layout  
-- 📁 **CSV Export**: Export all finance data to a structured file for spreadsheet use  
-- 🧠 **Input Validation**: Handles invalid inputs gracefully  
+- **Monthly Tracking**: Add, edit, rename, or delete months  
+- **Income Tracking**: Add, edit, or remove income entries by category  
+- **Expense Tracking**: Add, edit, or remove expense entries by category  
+- **Report Generation**: View monthly financial reports formatted in a clean table layout  
+- **CSV Export**: Export all finance data to a structured file for spreadsheet use  
+- **Input Validation**: Handles invalid inputs gracefully  
 
 
 ## Sample Categories
@@ -174,3 +174,4 @@ Enter a number to choose an option:
 - `main` — Main program logic and entry point  
 - `TrackerSettings` — Handles data storage, reporting, and CSV export  
 - `TrackerModify` — Manages all income, expense, and month modification operations
+
