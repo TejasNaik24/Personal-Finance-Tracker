@@ -935,7 +935,7 @@ void TrackerSettings::exportFile() {
             oss.str("");
         }
 
-        oss << "Total Income\n";
+        oss << "Total Income";
         float grandTotalIncome = 0.0;
         for (const string& month : months) {
             float monthTotal = 0.0;
