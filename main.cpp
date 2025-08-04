@@ -5,8 +5,6 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include <stdexcept>
-#include <cctype>
 
 using namespace std;
 
@@ -38,6 +36,31 @@ string toTitleCase(string s) {
     }
     return s;
 }
+
+string replaceAll(string str, const string& from, const string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+    return str;
+}
+
+string formatWithDollar(float value, int width) {
+    stringstream ss;
+    ss << "$" << fixed << setprecision(2) << value;
+
+    string formattedValue = ss.str();
+
+    while (formattedValue.length() < width) {
+        formattedValue += " ";
+    }
+
+    return formattedValue;
+}
+
+
+
 
 class TrackerSettings;
 
@@ -147,7 +170,7 @@ void TrackerModify::removeIncome() {
     cout << "Enter a number to choose an option: ";
     while (true) {
         cin >> strRemoveIncome;
-        if (strRemoveIncome == "exit") {
+        if (strRemoveIncome == "exit" || strRemoveIncome == "Exit") {
             return;
         }
         try {
@@ -189,7 +212,7 @@ void TrackerModify::editIncome() {
 
     while (true) {
         cin >> input;
-        if (input == "exit") {
+        if (input == "exit" || input == "Exit") {
             return;
         }
 
@@ -202,7 +225,7 @@ void TrackerModify::editIncome() {
                 cout << "Enter new name: ";
                 cin >> newName;
                 newName = toTitleCase(newName);
-                if (newName == "exit") {
+                if (newName == "Exit") {
                     return;
                 }
                 cout << "Enter new amount $";
@@ -230,7 +253,7 @@ void TrackerModify::editIncome() {
 void TrackerModify::addExpense() {
     ExpenseItem value;
     string strValue;
-    cout << "Type exit To End" << endl;
+    cout << "Type Exit To End" << endl;
     while (true) {
         cout << "Name Of Expense (Food, Rent, Utilities, Entertainment, Transportation, Etc): ";
         cin >> value.category;
@@ -262,7 +285,7 @@ void TrackerModify::changeYear() {
 
     cout << "Enter new year: ";
     cin >> currentTemp;
-    if (currentTemp == "exit") {
+    if (currentTemp == "exit" || currentTemp == "Exit") {
         cout << "Year Change Cancelled" << endl;
         return;
     }
@@ -274,7 +297,7 @@ void TrackerModify::changeYear() {
         } catch (invalid_argument&) {
             cout << "Invalid input. Please enter a valid year: ";
             cin >> currentTemp;
-            if (currentTemp == "exit") {
+            if (currentTemp == "exit" || currentTemp == "Exit") {
                 cout << "Year Change Cancelled" << endl;
                 return;
             }
@@ -305,7 +328,7 @@ void TrackerModify::removeExpense() {
     cout << "Enter a number to choose an option: ";
     while (true) {
         cin >> strRemoveExpense;
-        if (strRemoveExpense == "exit") {
+        if (strRemoveExpense == "exit" || strRemoveExpense == "Exit") {
             return;
         }
         try {
@@ -347,7 +370,7 @@ void TrackerModify::editExpense() {
 
     while (true) {
         cin >> input;
-        if (input == "exit") {
+        if (input == "exit" || input == "Exit") {
             return;
         }
 
@@ -403,7 +426,7 @@ void TrackerModify::removeMonth() {
     while (true) {
         cin >> strType;
 
-        if (strType == "exit") {
+        if (strType == "exit" || strType == "Exit") {
             return;
         }
 
@@ -442,7 +465,7 @@ void TrackerModify::changeMonthName() {
 
     while (true) {
         cin >> strTemp;
-        if (strTemp == "exit") {
+        if (strTemp == "exit" || strTemp == "Exit") {
             return;
         }
 
@@ -554,7 +577,7 @@ void TrackerSettings::addToMonth(TrackerModify& modify) {
     cout << "Enter a number to choose an option: ";
     while (true) {
         cin >> strSelection;
-        if (strSelection == "exit") {
+        if (strSelection == "exit" || strSelection == "Exit") {
             return;
         }
         try {
@@ -627,7 +650,6 @@ void TrackerSettings::viewReport() {
     int totalColumns = months.size() + 2;
     int totalTableWidth = totalColumns * (columnWidth + 1) + 1;
 
-
     int yearLength = to_string(year).length();
     int padLeft = (totalTableWidth - 2 - yearLength) / 2;
     int padRight = totalTableWidth - 2 - yearLength - padLeft;
@@ -658,7 +680,6 @@ void TrackerSettings::viewReport() {
         for (const string& month : months) {
             if (incomeByMonth.count(month)) {
                 for (const IncomeItem& item : incomeByMonth.at(month)) {
-                    // Replaced std::find with manual loop as per your strict no new include rule
                     bool found = false;
                     for (const string& existingCategory : incomeCategories) {
                         if (existingCategory == item.category) {
@@ -687,10 +708,10 @@ void TrackerSettings::viewReport() {
                     }
                 }
                 totalCategory += sum;
-                cout << left << setw(columnWidth) << fixed << setprecision(2) << sum << "|";
+                cout << formatWithDollar(sum, columnWidth) << "|";
             }
 
-            cout << left << setw(columnWidth) << fixed << setprecision(2) << totalCategory << "|" << endl;
+            cout << formatWithDollar(totalCategory, columnWidth) << "|" << endl;
             cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
         }
 
@@ -705,10 +726,10 @@ void TrackerSettings::viewReport() {
                 }
             }
             grandTotal += monthTotal;
-            cout << left << setw(columnWidth) << fixed << setprecision(2) << monthTotal << "|";
+            cout << formatWithDollar(monthTotal, columnWidth) << "|";
         }
 
-        cout << left << setw(columnWidth) << fixed << setprecision(2) << grandTotal << "|" << endl;
+        cout << formatWithDollar(grandTotal, columnWidth) << "|" << endl;
         cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
     } else {
         cout << "|" << left << setw(columnWidth) << "No Income Data";
@@ -730,7 +751,6 @@ void TrackerSettings::viewReport() {
         for (const string& month : months) {
             if (expenseByMonth.count(month)) {
                 for (const ExpenseItem& value : expenseByMonth.at(month)) {
-                    // Replaced std::find with manual loop as per your strict no new include rule
                     bool found = false;
                     for (const string& existingCategory : expensesCategories) {
                         if (existingCategory == value.category) {
@@ -744,7 +764,6 @@ void TrackerSettings::viewReport() {
                 }
             }
         }
-
 
         for (const string& category : expensesCategories) {
             cout << "|" << left << setw(columnWidth) << category << "|";
@@ -760,10 +779,10 @@ void TrackerSettings::viewReport() {
                     }
                 }
                 totalCategory += sum;
-                cout << left << setw(columnWidth) << fixed << setprecision(2) << sum << "|";
+                cout << formatWithDollar(sum, columnWidth) << "|";
             }
 
-            cout << left << setw(columnWidth) << fixed << setprecision(2) << totalCategory << "|" << endl;
+            cout << formatWithDollar(totalCategory, columnWidth) << "|" << endl;
             cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
         }
 
@@ -777,9 +796,9 @@ void TrackerSettings::viewReport() {
                 }
             }
             grandTotal += monthTotal;
-            cout << left << setw(columnWidth) << fixed << setprecision(2) << monthTotal << "|";
+            cout << formatWithDollar(monthTotal, columnWidth) << "|";
         }
-        cout << left << setw(columnWidth) << fixed << setprecision(2) << grandTotal << "|" << endl;
+        cout << formatWithDollar(grandTotal, columnWidth) << "|" << endl;
         cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
     } else {
         cout << "|" << left << setw(columnWidth) << "No Expenses Data";
@@ -788,7 +807,6 @@ void TrackerSettings::viewReport() {
         }
         cout << "|" << endl;
         cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
-
     }
     if (!incomeByMonth.empty() || !expenseByMonth.empty()) {
         cout << "|" << left << setw(columnWidth) << "Net Saving" << "|";
@@ -811,14 +829,213 @@ void TrackerSettings::viewReport() {
 
             float netSaving = totalIncome - totalExpenses;
             TotalNetSaving += netSaving;
-            cout << setw(columnWidth) << fixed << setprecision(2) << netSaving << "|";
+            cout << formatWithDollar(netSaving, columnWidth) << "|";
         }
-        cout << left << setw(columnWidth) << fixed << setprecision(2) << TotalNetSaving << "|" << endl;
+        cout << formatWithDollar(TotalNetSaving, columnWidth) << "|" << endl;
         cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
     }
 }
 
 void TrackerSettings::exportFile() {
+    if (months.empty() && incomeByMonth.empty() && expenseByMonth.empty()) {
+        cout << "No data to export. Please add some data first." << endl;
+        return;
+    }
+
+    string filePath;
+    string name;
+    string defaultFileName;
+    cout << "Type exit To Cancel" << endl;
+    cout << "Enter The Name Of the File: ";
+    cin >> name;
+    if (name == "exit" || name == "Exit") {
+        return;
+    }
+    defaultFileName = name + ".csv";
+    cout << "Optional: Enter the full path where you want to save the CSV file (e.g., /Users/YourUser/Downloads) if no path entered will auto save to current directory: ";
+    cin.ignore();
+    getline(cin, filePath);
+    if (filePath == "exit" || filePath == "Exit") {
+        return;
+    }
+
+    string fullPath;
+    if (filePath.empty()) {
+        fullPath = defaultFileName;
+    } else {
+        char pathSeparator = '/';
+#ifdef _WIN32
+        pathSeparator = '\\';
+#endif
+        if (filePath.back() != '/' && filePath.back() != '\\') {
+            fullPath = filePath + pathSeparator + defaultFileName;
+        } else {
+            fullPath = filePath + defaultFileName;
+        }
+    }
+
+    ofstream outFile(fullPath);
+
+    if (!outFile.is_open()) {
+        cerr << "Error: Could not open file for writing at " << fullPath << endl;
+        cerr << "Please check the path and permissions." << endl;
+        return;
+    }
+
+    ostringstream oss;
+    oss << year << endl;
+    outFile << oss.str();
+    oss.str("");
+
+    oss << "\nCategory";
+    for (const string& month : months) {
+        oss << "," << month;
+    }
+    oss << ",Total\n";
+    outFile << oss.str();
+    oss.str("");
+
+    if (!incomeByMonth.empty()) {
+        outFile << "Income\n";
+        vector<string> incomeCategories;
+        for (const string& month : months) {
+            if (incomeByMonth.count(month)) {
+                for (const IncomeItem& item : incomeByMonth.at(month)) {
+                    bool found = false;
+                    for (const string& existingCategory : incomeCategories) {
+                        if (existingCategory == item.category) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        incomeCategories.push_back(item.category);
+                    }
+                }
+            }
+        }
+
+        for (const string& category : incomeCategories) {
+            oss << "\"" << replaceAll(category, "\"", "\"\"") << "\"";
+            float totalCategory = 0.0;
+            for (const string& month : months) {
+                float sum = 0.0;
+                if (incomeByMonth.count(month)) {
+                    for (const IncomeItem& item : incomeByMonth.at(month)) {
+                        if (item.category == category) {
+                            sum += item.amount;
+                        }
+                    }
+                }
+                totalCategory += sum;
+                oss << "," << fixed << setprecision(2) << "$" << sum;
+            }
+            oss << "," << fixed << setprecision(2) << "$" << totalCategory << "\n";
+            outFile << oss.str();
+            oss.str("");
+        }
+
+        oss << "Total Income\n";
+        float grandTotalIncome = 0.0;
+        for (const string& month : months) {
+            float monthTotal = 0.0;
+            if (incomeByMonth.count(month)) {
+                for (const IncomeItem& item : incomeByMonth.at(month)) {
+                    monthTotal += item.amount;
+                }
+            }
+            grandTotalIncome += monthTotal;
+            oss << "," << fixed << setprecision(2) << "$" << monthTotal;
+        }
+        oss << "," << fixed << setprecision(2) << "$" << grandTotalIncome << "\n";
+        outFile << oss.str();
+        oss.str("");
+    }
+
+    if (!expenseByMonth.empty()) {
+        outFile << "Expenses\n";
+        vector<string> expenseCategories;
+        for (const string& month : months) {
+            if (expenseByMonth.count(month)) {
+                for (const ExpenseItem& item : expenseByMonth.at(month)) {
+                    bool found = false;
+                    for (const string& existingCategory : expenseCategories) {
+                        if (existingCategory == item.category) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        expenseCategories.push_back(item.category);
+                    }
+                }
+            }
+        }
+
+        for (const string& category : expenseCategories) {
+            oss << "\"" << replaceAll(category, "\"", "\"\"") << "\"";
+            float totalCategory = 0.0;
+            for (const string& month : months) {
+                float sum = 0.0;
+                if (expenseByMonth.count(month)) {
+                    for (const ExpenseItem& item : expenseByMonth.at(month)) {
+                        if (item.category == category) {
+                            sum += item.amount;
+                        }
+                    }
+                }
+                totalCategory += sum;
+                oss << "," << fixed << setprecision(2) << "$" << sum;
+            }
+            oss << "," << fixed << setprecision(2) << "$" << totalCategory << "\n";
+            outFile << oss.str();
+            oss.str("");
+        }
+
+        oss << "Total Expenses";
+        float grandTotalExpenses = 0.0;
+        for (const string& month : months) {
+            float monthTotal = 0.0;
+            if (expenseByMonth.count(month)) {
+                for (const ExpenseItem& item : expenseByMonth.at(month)) {
+                    monthTotal += item.amount;
+                }
+            }
+            grandTotalExpenses += monthTotal;
+            oss << "," << fixed << setprecision(2) << "$" << monthTotal;
+        }
+        oss << "," << fixed << setprecision(2) << "$" << grandTotalExpenses << "\n";
+        outFile << oss.str();
+        oss.str("");
+    }
+
+    if (!incomeByMonth.empty() || !expenseByMonth.empty()) {
+        outFile << "\nNet Saving";
+        float totalNetSaving = 0.0;
+        for (const string& month : months) {
+            float totalIncome = 0.0;
+            float totalExpenses = 0.0;
+            if (incomeByMonth.count(month)) {
+                for (const IncomeItem& item : incomeByMonth.at(month)) {
+                    totalIncome += item.amount;
+                }
+            }
+            if (expenseByMonth.count(month)) {
+                for (const ExpenseItem& item : expenseByMonth.at(month)) {
+                    totalExpenses += item.amount;
+                }
+            }
+            float netSaving = totalIncome - totalExpenses;
+            totalNetSaving += netSaving;
+            oss << "," << fixed << setprecision(2) <<  "$" << netSaving;
+        }
+        oss << "," << fixed << setprecision(2) << "$" << totalNetSaving << "\n";
+        outFile << oss.str();
+        oss.str("");
+    }
+
+    outFile.close();
+    cout << "Report successfully exported to: " << fullPath << endl;
 }
 
 void TrackerSettings::resetFileFunction() {
