@@ -655,7 +655,7 @@ void TrackerSettings::viewReport() {
     int padRight = totalTableWidth - 2 - yearLength - padLeft;
 
     cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
-    cout << "|" << string(padLeft, ' ') << year << string(padRight, ' ') << "|" << endl;
+    cout << "|" << year << string(padRight + padLeft, ' ') << "|" << endl;
     cout << "|" << string(totalTableWidth - 2, '-') << "|" << endl;
 
     cout << "|" << left << setw(columnWidth) << "Category" << "|";
