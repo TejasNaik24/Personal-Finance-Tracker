@@ -4,6 +4,8 @@ A Personal Finance tracker written in **C++**. It allows users to keep track of 
 edit financial data, generate monthly reports, and export financial data to CSV. The program demonstrates 
 **object-oriented programming**, **file I/O**, **data formatting**, and **robust user input handling**.
 
+### Check out the demo [here](https://drive.google.com/file/d/1nWzTE9D0tjEIfbEN6k0OqfCOIK7urn3Y/view?usp=sharing)!
+
 
 ## Features
 
@@ -174,4 +176,5 @@ Enter a number to choose an option:
 - `main` — Main program logic and entry point  
 - `TrackerSettings` — Handles data storage, reporting, and CSV export  
 - `TrackerModify` — Manages all income, expense, and month modification operations
+
 
